@@ -1,0 +1,23 @@
+{
+  "name": "tokopedia-amazon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sivaprakashravi/tokopedia-amazon.git"
+  },
+  "author": "sivaprakasharavi baskaran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sivaprakashravi/tokopedia-amazon/issues"
+  },
+  "homepage": "https://github.com/sivaprakashravi/tokopedia-amazon#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.20"
+  }
+}
