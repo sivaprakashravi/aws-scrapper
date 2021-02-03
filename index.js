@@ -1,30 +1,37 @@
-var { port } = require('./constants/defaults');
-var { looper } = require('./processors/request-handler');
-var express = require('express');
-
-var jsdom = require("jsdom");
+const { port } = require('./constants/defaults');
+const { amazonScrapper } = require('./processors/request-handler');
+const express = require('express');
+const _ = require('lodash');
+const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 global.document = document;
-
-var $ = jQuery = require('jquery')(window);
-
-var app = express();
+const $ = jQuery = require('jquery')(window);
+const app = express();
 
 app.get('/', async (req, res) => {
+    const threshold = 100;
+    let count = 0;
     if (req && req.query && req.query.key) {
-        let pages = 0;
-        const { htmlString, pageNo, list } = await looper(req.query.key);
-        let bodyString = `<style type="text/css">html, body {padding: 0; margin: 0} body > div {width: 24%; display: inline-block; }</style><body>${htmlString}</body>`;
-        $(bodyString).appendTo('html');
-        // pages = $('.template=PAGINATION').find('.a-disabled').text();
-        // console.log(pages);
-        // res.write($('html').html());
-        res.send(list);
+        const { pageNo, list } = await amazonScrapper(req.query.key);
+        count = + list.length;
+        const promisesLoop = [];
+        if (pageNo && pageNo > 1) {
+            for (let i = 2; i <= pageNo; i++) {
+                promisesLoop.push(new Promise(async (resolve, reject) => {
+                    const loopedData = await amazonScrapper(req.query.key, i);
+                    console.log(i, loopedData.list.length);
+                    resolve(loopedData.list);
+                }));
+            }
+        }
+        Promise.all(promisesLoop).then(d => {
+            res.send(list.concat(_.flatten(d)));
+        });
+
     } else {
-        let bodyString = `<html><body>No Search Object</body></html>`;
-        res.write(bodyString);
+        res.send([]);
     }
 })
 
