@@ -1,2 +1,3 @@
 var port = 8000;
-module.exports = {port};
+var host = 'https://www.amazon.in';
+module.exports = {port, host};

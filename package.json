@@ -19,5 +19,10 @@
   "dependencies": {
     "express": "^4.17.1",
     "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.5",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.4.0"
   }
 }
