@@ -38,20 +38,27 @@ var looper = async function (key, pageNo) {
                     let { html } = _.find(parsedBody, p => typeof p !== 'string');
                     html = html.replace(/(\r\n|\n|\r)/gm, '');
                     $('body').html(html);
+                    const asin = $('body > div').attr('data-asin');
+                    const uuid = $('body > div').attr('data-uuid');
+                    const primaryImage = $('body img').attr('src');
                     const isSponsored = !!$('div .s-sponsored-label-text').text();
-                    const star = $("span.a-icon-alt:contains('5')").text();
+                    const productName = $('body h2').text();
+                    const rating = $("span.a-icon-alt:contains('5')").text();
+                    const actualPrice = $('.a-price-whole').text().replace(/[^\w\s]/gi, '');
+                    const sellingPrice = $('.a-text-price > .a-offscreen').text().substr(1).replace(/[^\w\s]/gi, '');
+                    const offerPercentage = (sellingPrice / 100) - (actualPrice / 100)
                     const product = {
-                        "asin": $('body > div').attr('data-asin'),
-                        "uuid": $('body > div').attr('data-uuid'),
-                        "primaryImage": $('body img').attr('src'),
+                        asin,
+                        uuid,
+                        primaryImage,
                         "altImages": ["https://m.media-amazon.com/images/I/51lPB6P4BwL._AC_UL320_.jpg", "https://m.media-amazon.com/images/I/51lPB6P4BwL._AC_UL320_.jpg"],
-                        "isSponsored": isSponsored,
-                        "productName": $('body h2').text(),
-                        "rating": star,
+                        isSponsored,
+                        productName,
+                        rating,
                         "noOfRating": 7,
-                        "actualPrice": $('.a-price-whole').text(),
-                        "sellingPrice": $('.a-text-price > .a-offscreen').text(),
-                        "offerPercentage": 50,
+                        actualPrice,
+                        sellingPrice,
+                        offerPercentage,
                         "bankOffers": ["1500 off on Kotak Bank Credit & Debit Card"],
                         "shippingCharges": 55,
                         "deliveryDueBy": "Saturday, February 6 - Sunday, February 7",
