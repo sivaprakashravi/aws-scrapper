@@ -10,30 +10,45 @@ global.document = document;
 const $ = jQuery = require('jquery')(window);
 const app = express();
 
-app.get('/', async (req, res) => {
+app.get('/', async(req, res) => {
+    res.send({message: 'Master Route Scrapping'});
+});
+app.get('/amazon', async(req, res) => {
+    res.send({message: 'Parent Route Amazon Scrapping'});
+});
+app.get('/amazon/pull', async (req, res) => {
     const threshold = 100;
     let count = 0;
     if (req && req.query && req.query.key) {
         const { pageNo, list } = await amazonScrapper(req.query.key);
         count = + list.length;
-        const promisesLoop = [];
         if (pageNo && pageNo > 1) {
-            for (let i = 2; i <= pageNo; i++) {
-                promisesLoop.push(new Promise(async (resolve, reject) => {
-                    const loopedData = await amazonScrapper(req.query.key, i);
-                    console.log(i, loopedData.list.length);
-                    resolve(loopedData.list);
-                }));
-            }
+            new Promise(async (resolve, reject) => {
+                let data = [];
+                for (let i = 2; i <= pageNo; i++) {
+                    if (count < threshold) {
+                        const loopedData = await amazonScrapper(req.query.key, i);
+                        data = data.concat(loopedData.list);
+                        count = count + loopedData.list.length;
+                        console.log(count);
+                    } else {
+                        resolve(data);
+                        break;
+                    }
+                    if (i === pageNo) {
+                        resolve(data);
+                    }
+                }
+            }).then(d => {
+                let response = list.concat(_.flatten(d));
+                response = _.filter(response, (r, i) => i < threshold);
+                res.send({response});
+            });
         }
-        Promise.all(promisesLoop).then(d => {
-            res.send(list.concat(_.flatten(d)));
-        });
-
     } else {
         res.send([]);
     }
-})
+});
 
 app.listen(port, () => {
     console.log(`App Running ~~ ${port}`);

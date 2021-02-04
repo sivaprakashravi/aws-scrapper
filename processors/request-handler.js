@@ -24,14 +24,17 @@ const processProd = (html, key) => {
             altImages[image[1]] = image[0];
         });
         const isSponsored = !!$('div .s-sponsored-label-text').text();
-        const productName = $('body h2').text();
+        let productName = $('body h5').text();
+        let prodMinDesc =  $('body h2').text();
+        productName = productName ? productName : prodMinDesc;
+        prodMinDesc = (productName === prodMinDesc) ? '' : prodMinDesc;
         const rating = $("span.a-icon-alt:contains('5')").text();
         const noOfRating = removeSplChar($(".a-link-normal .a-size-base").text(), true);
         const actualPrice = removeSplChar($('.a-text-price > .a-offscreen').text().substr(1), true);
         const sellingPrice = removeSplChar($('.a-price-whole').text(), true);
         const actualPerPercentage = (actualPrice / 100);
         const offerPercentage = Math.ceil((actualPrice - sellingPrice) / actualPerPercentage);
-        const bankOffers = $('div[class="a-row a-size-base a-color-secondary"]').text();
+        const bankOffers = $('div[class="a-row a-size-base a-color-secondary"]').last().text();
         const deliveryDue = $('.a-row.a-size-base.a-color-secondary.s-align-children-center .a-text-bold').text();
         const deliveryBy = $('.a-row.a-size-base.a-color-secondary.s-align-children-center .a-row:last-child').text();
         const shippingCharges = deliveryBy.split(' by ')[0];
@@ -44,6 +47,7 @@ const processProd = (html, key) => {
             altImages,
             isSponsored,
             productName,
+            prodMinDesc,
             rating,
             noOfRating,
             actualPrice,
