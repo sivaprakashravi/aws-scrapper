@@ -21,8 +21,9 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.5",
+    "cors": "^2.8.5",
     "jquery": "^3.5.1",
-    "jsdom": "^16.4.0"
+    "jsdom": "^16.4.0",
+    "phantom": "^6.3.0"
   }
 }

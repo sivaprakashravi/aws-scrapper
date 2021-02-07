@@ -1,7 +1,11 @@
 const { port } = require('./constants/defaults');
-const { amazonScrapper } = require('./processors/request-handler');
+const { amazonScrapper, amazonLogin } = require('./processors/request-handler');
+const { success, error } = require('./utils/handlers');
+const messages = require('./utils/messages');
+const routes = require('./routes');
 const express = require('express');
 const _ = require('lodash');
+const cors = require('cors');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM();
@@ -9,14 +13,14 @@ const { document } = (new JSDOM('')).window;
 global.document = document;
 const $ = jQuery = require('jquery')(window);
 const app = express();
-
-app.get('/', async(req, res) => {
-    res.send({message: 'Master Route Scrapping'});
+app.use(cors());
+app.get(routes.MASTER, (req, res) => {
+    res.send(success(null, messages.MASTER));
 });
-app.get('/amazon', async(req, res) => {
-    res.send({message: 'Parent Route Amazon Scrapping'});
+app.get(routes.AMAZONPARENT, (req, res) => {
+    res.send(success(null, messages.AMAZONPARENT));
 });
-app.get('/amazon/pull', async (req, res) => {
+app.get(routes.SCRAPPER, async (req, res) => {
     const threshold = 100;
     let count = 0;
     if (req && req.query && req.query.key) {
@@ -30,7 +34,6 @@ app.get('/amazon/pull', async (req, res) => {
                         const loopedData = await amazonScrapper(req.query.key, i);
                         data = data.concat(loopedData.list);
                         count = count + loopedData.list.length;
-                        console.log(count);
                     } else {
                         resolve(data);
                         break;
@@ -42,14 +45,19 @@ app.get('/amazon/pull', async (req, res) => {
             }).then(d => {
                 let response = list.concat(_.flatten(d));
                 response = _.filter(response, (r, i) => i < threshold);
-                res.send({response});
+                res.send(success(response));
             });
         }
     } else {
-        res.send([]);
+        res.send(error(messages.NOSEARCHKEY));
     }
 });
 
+app.get('/amazon/login', async (req, res) => {
+    const status = await amazonLogin();
+    res.send({});
+})
+
 app.listen(port, () => {
-    console.log(`App Running ~~ ${port}`);
+    console.log(`${messages.APPRUNNING} ~~ ${port}`);
 });

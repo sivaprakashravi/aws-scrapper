@@ -1,4 +1,4 @@
-const { host } = require('./../constants/defaults');
+const { host, login } = require('./../constants/defaults');
 const { removeSplChar } = require('./../utils/formatter');
 const _ = require('lodash');
 const https = require('https');
@@ -25,13 +25,14 @@ const processProd = (html, key) => {
         });
         const isSponsored = !!$('div .s-sponsored-label-text').text();
         let productName = $('body h5').text();
-        let prodMinDesc =  $('body h2').text();
+        let prodMinDesc = $('body h2').text();
         productName = productName ? productName : prodMinDesc;
         prodMinDesc = (productName === prodMinDesc) ? '' : prodMinDesc;
         const rating = $("span.a-icon-alt:contains('5')").text();
         const noOfRating = removeSplChar($(".a-link-normal .a-size-base").text(), true);
-        const actualPrice = removeSplChar($('.a-text-price > .a-offscreen').text().substr(1), true);
+        let actualPrice = removeSplChar($('.a-text-price > .a-offscreen').text().substr(1), true);
         const sellingPrice = removeSplChar($('.a-price-whole').text(), true);
+        actualPrice = actualPrice ? actualPrice : sellingPrice;
         const actualPerPercentage = (actualPrice / 100);
         const offerPercentage = Math.ceil((actualPrice - sellingPrice) / actualPerPercentage);
         const bankOffers = $('div[class="a-row a-size-base a-color-secondary"]').last().text();
@@ -40,38 +41,40 @@ const processProd = (html, key) => {
         const shippingCharges = deliveryBy.split(' by ')[0];
         const category = key;
         const subCategory = null;
-        product = {
-            asin,
-            uuid,
-            primaryImage,
-            altImages,
-            isSponsored,
-            productName,
-            prodMinDesc,
-            rating,
-            noOfRating,
-            actualPrice,
-            sellingPrice,
-            offerPercentage,
-            bankOffers,
-            shippingCharges,
-            deliveryDue,
-            category,
-            subCategory
-        };
+        if (actualPrice && sellingPrice) {
+            product = {
+                asin,
+                uuid,
+                primaryImage,
+                altImages,
+                isSponsored,
+                productName,
+                prodMinDesc,
+                rating,
+                noOfRating,
+                actualPrice,
+                sellingPrice,
+                offerPercentage,
+                bankOffers,
+                shippingCharges,
+                deliveryDue,
+                category,
+                subCategory
+            };
+        }
     }
     return product;
-}
+};
+
 const amazonScrapper = async function (key, pageNo) {
     return await new Promise((resolve, reject) => {
-        let url = `${host}/s/query?`;
+        let url = `${host}s/query?`;
         if (key) {
             url = `${url}k=${key}`;
         }
         if (pageNo) {
             url = `${url}&page=${pageNo}`;
         }
-        console.log(url);
         https.get(url, html => {
             html.setEncoding('utf8');
             let body = '';
@@ -100,7 +103,7 @@ const amazonScrapper = async function (key, pageNo) {
                     let { html } = _.find(parsedBody, p => typeof p !== 'string');
                     html = html.replace(/(\r\n|\n|\r)/gm, '');
                     const product = processProd(html, key);
-                    if(product) {
+                    if (product) {
                         list.push(product);
                     }
                 });
@@ -112,4 +115,46 @@ const amazonScrapper = async function (key, pageNo) {
     });
 }
 
-module.exports = { amazonScrapper };
+const amazonLogin = async function () {
+    return await new Promise((resolve, reject) => {
+        let url = `${login}`;
+        const phantom = require('phantom');
+        (async function () {
+            const instance = await phantom.create();
+            const page = await instance.createPage();
+            await page.on("onResourceRequested", function (requestData) {
+                console.info('Requesting', requestData.url)
+            });
+
+            const status = await page.open(login);
+            if (status === 'success') {
+                page.includeJs(
+                    // Include the https version, you can change this to http if you like.
+                    'https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js',
+                    function () {
+                        (page.evaluate(function () {                            // jQuery is loaded, now manipulate the DOM
+                            $('#ap_email').val('9994125534');
+                            $('#continue').click();
+                        }))
+                    }
+                );
+                // console.log(status);    
+                // const content = await page.property('content');
+                // console.log(content);
+            }
+
+            await instance.exit();
+        }());
+        // $('body').html(`<iframe id="vc-login" src="${login}"></iframe>`);
+        // $('body').ready(() => {
+        //     setTimeout(() => {
+        //         $('#vc-login').contents().find('#ap_email').val('9994125534');
+        //         $('#continue').click();
+        //     }, 15000)
+        // })
+    }).then((d) => {
+        return d;
+    });
+}
+
+module.exports = { amazonScrapper, amazonLogin };
