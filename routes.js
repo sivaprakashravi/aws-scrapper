@@ -2,5 +2,7 @@
 module.exports = {
     MASTER: '/',
     AMAZONPARENT: '/amazon',
-    SCRAPPER: '/amazon/scrapper'
+    SCRAPPER: '/amazon/scrapper',
+    JOBS: '/amazon/jobs',
+    CATEGORY: '/amazon/categories'
 };
