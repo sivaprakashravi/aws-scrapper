@@ -1,5 +1,5 @@
 const { port } = require('./constants/defaults');
-const { amazonScrapper, extractProdInformation, pushtoDB, categories, amazonLogin } = require('./processors/request-handler');
+const { amazonScrapper, extractProdInformation, pushtoDB, getFromDB, categories, amazonLogin } = require('./processors/request-handler');
 const { success, error } = require('./utils/handlers');
 const messages = require('./utils/messages');
 const routes = require('./routes');
@@ -28,6 +28,11 @@ app.get(routes.CATEGORY, async (req, res) => {
     console.log(`Path: ${routes.CATEGORY}`);
     const categoriesList = await categories();
     res.send(success(categoriesList));
+});
+app.get(routes.DATA, async (req, res) => {
+    console.log(`Path: ${routes.DATA}`);
+    const list = await getFromDB();
+    res.send(success(list));
 });
 app.get(routes.SCRAPPER, async (req, res) => {
     req.started = new Date().getTime();

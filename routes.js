@@ -4,5 +4,6 @@ module.exports = {
     AMAZONPARENT: '/amazon',
     SCRAPPER: '/amazon/scrapper',
     JOBS: '/amazon/jobs',
-    CATEGORY: '/amazon/categories'
+    CATEGORY: '/amazon/categories',
+    DATA: '/amazon/data'
 };

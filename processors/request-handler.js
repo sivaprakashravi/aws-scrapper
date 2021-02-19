@@ -42,7 +42,7 @@ const processProd = (asin, html, key) => {
         const deliveryBy = $('.a-row.a-size-base.a-color-secondary.s-align-children-center .a-row:last-child').text();
         const buybox_new_shipping_price = deliveryBy.split(' by ')[0];
         let listing_url = $('h2 a.a-link-normal').attr('href');
-        const hrefsplit = listing_url.split('&url=');
+        const hrefsplit = listing_url ? listing_url.split('&url=') : null;
         if (hrefsplit && hrefsplit[1]) {
             listing_url = decodeURIComponent(hrefsplit[1]);
         }
@@ -194,6 +194,23 @@ const pushtoDB = async (products) => {
     });
 }
 
+const getFromDB = async () => {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(dbHost, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }, (err, db) => {
+            if (err) reject(err);
+            var dbo = db.db("tokopedia-amazon");
+            dbo.collection("tokopedia-products").find().sort({ _id: 1 }).limit(100).toArray().then(d => {
+                resolve(d);
+            });
+        });
+    }).then(d => d).catch(e => {
+        console.log('Pushed to DB');
+    });
+}
+
 const categories = async () => {
     return new Promise((resolve, reject) => {
         MongoClient.connect(dbHost, {
@@ -216,4 +233,4 @@ const amazonLogin = async function () {
     return true;
 }
 
-module.exports = { amazonScrapper, extractProdInformation, pushtoDB, categories, amazonLogin };
+module.exports = { amazonScrapper, extractProdInformation, pushtoDB, getFromDB, categories, amazonLogin };
