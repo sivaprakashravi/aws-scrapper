@@ -1,8 +1,4 @@
-const { port } = require('./constants/defaults');
-const { amazonScrapper, extractProdInformation, pushtoDB, getFromDB, categories, amazonLogin } = require('./processors/request-handler');
-const { success, error } = require('./utils/handlers');
-const messages = require('./utils/messages');
-const routes = require('./routes');
+// Default Imports
 const express = require('express');
 const _ = require('lodash');
 const cors = require('cors');
@@ -12,29 +8,39 @@ const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 global.document = document;
 const $ = jQuery = require('jquery')(window);
-process.setMaxListeners(Infinity);
-const app = express();
-app.use(cors());
+
+const { port } = require('./constants/defaults');
+const { amazonScrapper,
+    extractProdInformation,
+    pushtoDB,
+    getFromDB,
+    amazonLogin } = require('./processors/request-handler');
+const { categories } = require('./processors/categories-handler');
+const { success, error } = require('./utils/handlers');
+const messages = require('./utils/messages');
+const routes = require('./routes');
+
 let activeJobs = [];
-app.get(routes.MASTER, (req, res) => {
-    console.log(`Path: ${routes.MASTER}`);
+
+routes.get('MASTER', (req, res) => {
     res.send(success(null, messages.MASTER));
 });
-app.get(routes.AMAZONPARENT, (req, res) => {
-    console.log(`Path: ${routes.AMAZONPARENT}`);
+
+routes.get('AMAZONPARENT', (req, res) => {
     res.send(success(null, messages.AMAZONPARENT));
 });
-app.get(routes.CATEGORY, async (req, res) => {
-    console.log(`Path: ${routes.CATEGORY}`);
+
+routes.get('CATEGORY', async (req, res) => {
     const categoriesList = await categories();
     res.send(success(categoriesList));
 });
-app.get(routes.DATA, async (req, res) => {
-    console.log(`Path: ${routes.DATA}`);
+
+routes.get('DATA', async (req, res) => {
     const list = await getFromDB();
     res.send(success(list));
 });
-app.get(routes.SCRAPPER, async (req, res) => {
+
+routes.get('SCRAPPER', async (req, res) => {
     req.started = new Date().getTime();
     const threshold = 100;
     let count = 0;
@@ -88,15 +94,13 @@ app.get(routes.SCRAPPER, async (req, res) => {
     }
 });
 
-app.get(routes.JOBS, async (req, res) => {
+routes.get('JOBS', async (req, res) => {
     res.send(success(activeJobs));
 })
 
-app.get('/amazon/login', async (req, res) => {
+routes.get('AMAZONLOGIN', async (req, res) => {
     const status = await amazonLogin();
     res.send({});
 })
 
-app.listen(port, () => {
-    console.log(`${messages.APPRUNNING} ~~ ${port}`);
-});
+routes.listen(port);

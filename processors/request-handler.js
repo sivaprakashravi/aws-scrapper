@@ -2,6 +2,7 @@ const { host, login, dbHost, jQ } = require('./../constants/defaults');
 const { removeSplChar } = require('./../utils/formatter');
 const { prodDimensions, itemDimensions } = require('./../helpers/query-helper');
 const { browser, page, html } = require('./../processors/browser-handler');
+const { fetchAll } = require('./../processors/categories-handler');
 const _ = require('lodash');
 const jsdom = require("jsdom");
 const MongoClient = require('mongodb').MongoClient;
@@ -211,26 +212,8 @@ const getFromDB = async () => {
     });
 }
 
-const categories = async () => {
-    return new Promise((resolve, reject) => {
-        MongoClient.connect(dbHost, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }, (err, db) => {
-            if (err) throw err;
-            var dbo = db.db("tokopedia-amazon");
-            dbo.collection("category").find().toArray(function (err, result) {
-                if (err) throw err;
-                db.close();
-                resolve(result);
-            });
-        });
-
-    }).then(d => d);
-}
-
 const amazonLogin = async function () {
     return true;
 }
 
-module.exports = { amazonScrapper, extractProdInformation, pushtoDB, getFromDB, categories, amazonLogin };
+module.exports = { amazonScrapper, extractProdInformation, pushtoDB, getFromDB, amazonLogin };
