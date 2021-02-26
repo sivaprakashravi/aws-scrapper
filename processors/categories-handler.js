@@ -1,15 +1,17 @@
-const { host } = require('./../constants/defaults');
+const { host, dbHost } = require('./../constants/defaults');
 const { browser, page, html } = require('./../processors/browser-handler');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM();
 const $ = jQuery = require('jquery')(window);
 const _ = require('lodash');
+const axios = require('axios');
+const moment = require('moment');
 
 const fetchMainCategory = (async () => {
     const url = host;
     const pageLoaded = await page(url);
-    const primaryCategories = await pageLoaded.evaluate(() => {
+    let primaryCategories = await pageLoaded.evaluate(() => {
         if ($('#searchDropdownBox').html()) {
             const options = $('#searchDropdownBox option');
             const list = [];
@@ -18,7 +20,9 @@ const fetchMainCategory = (async () => {
                     list.push({
                         name: $(option).text(),
                         value: $(option).val(),
-                        treeIndex: 0
+                        treeIndex: 0,
+                        createdDate: new Date().getTime(),
+                        createdBy: 'DEVELOPER'
                     });
                 }
             });
@@ -26,6 +30,7 @@ const fetchMainCategory = (async () => {
         }
     });
     await pageLoaded.close();
+    primaryCategories.forEach(p => p.createdDate = moment().format())
     return primaryCategories;
 });
 
@@ -45,22 +50,15 @@ categoryInstance = (async (category) => {
                 const name = $(refinement).find('span').text();
                 const urlParams = new URLSearchParams(href);
                 let rh = urlParams.get('rh');
+                let rnid = urlParams.get('rnid');
                 let nIds = rh.split(',');
                 nIds = nIds.map(n => n.split(":").pop());
-                if (nIds[1]) {
-                    catId = nIds[0];
-                    levelOne.push({
-                        name,
-                        nId: nIds[1],
-                        treeIndex: 1
-                    });
-                } else {
-                    mainCategories.push({
-                        name,
-                        nId: nIds[0],
-                        treeIndex: 0
-                    });
-                }
+                catId = rnid;
+                levelOne.push({
+                    name,
+                    nId: nIds[1] ? nIds[1] : nIds[0],
+                    treeIndex: 1
+                });
             });
             return { catId, levelOne, mainCategories };
         });
@@ -70,6 +68,48 @@ categoryInstance = (async (category) => {
         pageScrapped.mainCategories && pageScrapped.mainCategories.length ? pageScrapped.mainCategories.forEach(mc => mc.parentIndex = category.name) : null;
         return pageScrapped;
     }
+});
+
+categoryLevelInstance = (async (sCategory, nId) => {
+    if (sCategory && sCategory.nId) {
+        const url = `${host}/s?bbn=${nId}&rh=n:${nId},n:${sCategory.nId}`;
+        // https://www.amazon.com/s?i=automotive-intl-ship&bbn=2562090011&rh=n:2562090011,n:15718271,n:15718291,n:15718301,n:19351186011&dc&qid=1614313546&rnid=15718301&ref=sr_nr_n_1
+        const pageLoaded = await page(url);
+        console.log(url);
+        const pageScrapped = await pageLoaded.evaluate(() => {
+            const refinements = $("#s-refinements div.a-section.a-spacing-none:contains('Department')").find('ul li.s-navigation-indent-2 a');
+            if(refinements) {
+                refinements = $("#s-refinements div.a-section.a-spacing-none:contains('Department')").find('ul li.s-navigation-indent-1 a')
+            }
+            const levelTwo = [];
+            $(refinements).each((i, refinement) => {
+                const href = $(refinement).attr('href');
+                const name = $(refinement).find('span').text();
+                const urlParams = new URLSearchParams(href);
+                let rh = urlParams.get('rh');
+                let node = urlParams.get('node');
+                if(rh) {
+                    let nIds = rh.split(',');
+                    nIds = nIds.map(n => n.split(":").pop());
+                    levelTwo.push({
+                        name,
+                        nId: nIds[2] ? nIds[2] : nIds[1],
+                        treeIndex: 2
+                    });
+                } else if(node) {
+                    levelTwo.push({
+                        name,
+                        node,
+                        treeIndex: 2
+                    });
+                }
+            });
+            return { levelTwo };
+        });
+        pageLoaded.close();
+        return pageScrapped;
+    }
+
 });
 
 categoriesLevelOne = (async (categoriesList) => {
@@ -97,19 +137,47 @@ categoriesLevelOne = (async (categoriesList) => {
     return categoriesList;
 });
 
+categoriesLevelLoop = (async (categoriesList) => {
+    async function fetcherLoop() {
+        const noOfProducts = categoriesList.length;
+        for (let index = 0; index < noOfProducts; index++) {
+            const { subCategory, nId } = categoriesList[index];
+            async function fetcherLoopDInstance() {
+                const noOfProducts = subCategory.length;
+                for (let index = 0; index < noOfProducts; index++) {
+                    const sCategory = subCategory[index];
+                    let { levelOne } = await categoryLevelInstance(sCategory, nId);
+                    if (levelOne && levelOne.length) {
+                        sCategory.subCategory = levelOne;
+                    }
+                }
+            }
+            await fetcherLoopDInstance();
+        }
+    }
+    await fetcherLoop();
+    return categoriesList;
+});
+
 const categories = async () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const mainCategories = await fetchMainCategory();
+            let mainCategories = await fetchMainCategory();
             // resolve(mainCategories);
             if (mainCategories && mainCategories.length) {
                 const splitted = await categoriesLevelOne(mainCategories);
+                const l2 = await categoriesLevelLoop(splitted);
                 resolve(splitted);
             }
         } catch (e) {
             reject(e);
         }
-    }).then(d => d);
+    }).then(d => {
+        return axios.post('http://localhost:8001/category/add', d).then(async (res) => {
+            console.log('Main Categories Pushed to DB');
+            categoriesLevelLoop(res.data.data);
+        });
+    });
 }
 
 

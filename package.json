@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js && cd STORAGE-HANDLER && node index.js"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,11 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
     "jquery": "^3.5.1",
     "jsdom": "^16.4.0",
+    "moment": "^2.29.1",
     "mongodb": "^3.6.3",
     "puppeteer": "^7.1.0",
     "puppeteer-core": "^7.0.4",

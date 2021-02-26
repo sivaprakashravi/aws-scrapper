@@ -31,8 +31,8 @@ routes.get('AMAZONPARENT', (req, res) => {
 });
 
 routes.get('CATEGORY', async (req, res) => {
-    const categoriesList = await categories();
-    res.send(success(categoriesList));
+    res.send(success('Process Initiated!'));
+    await categories();
 });
 
 routes.get('DATA', async (req, res) => {
