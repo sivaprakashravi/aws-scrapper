@@ -52,7 +52,6 @@ categoryInstance = (async (category) => {
                 catId = null;
                 const href = $(refinement).attr('href');
                 const name = $(refinement).find('span').text();
-                const urlParams = new URLSearchParams(href);
                 let rh = queryParams(href, 'rh');
                 let rnid = queryParams(href, 'rnid');
                 let nIds = rh ? rh.split(',') : [];
@@ -78,8 +77,12 @@ categoryLevelInstance = (async (sCategory, nId) => {
     if (sCategory && sCategory.nId) {
         const url = `${host}/s?bbn=${nId}&rh=n:${nId},n:${sCategory.nId}`;
         // https://www.amazon.com/s?i=automotive-intl-ship&bbn=2562090011&rh=n:2562090011,n:15718271,n:15718291,n:15718301,n:19351186011&dc&qid=1614313546&rnid=15718301&ref=sr_nr_n_1
-        const pageLoaded = await page(url);
+        let pageLoaded = await page(url);
         // console.log(url);
+        if(!pageLoaded) {
+            await browser();
+            pageLoaded = await page(url);
+        }
         const pageScrapped = await pageLoaded.evaluate(() => {
             const queryParams = (url, query) => {
                 const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
@@ -115,7 +118,7 @@ categoryLevelInstance = (async (sCategory, nId) => {
                     });
                 }
             });
-            return { levelTwo };
+            return levelTwo;
         });
         pageLoaded.close();
         return pageScrapped;
@@ -145,7 +148,7 @@ categoriesLevelOne = (async (categoriesList) => {
     if (additionalCategories && additionalCategories.length) {
         categoriesList = _.concat(categoriesList, additionalCategories);
     }
-    categoriesList = categoriesList.filter(c => !c.remove);
+    categoriesList = categoriesList.filter(c => (!c.remove && c.nId));
     return categoriesList;
 });
 
@@ -159,7 +162,7 @@ categoriesLevelLoop = (async (categoriesList) => {
                     const noOfProducts2 = subCategory.length;
                     for (let index2 = 0; index2 < noOfProducts2; index2++) {
                         const sCategory = subCategory[index2];
-                        let { levelTwo } = await categoryLevelInstance(sCategory, nId);
+                        let levelTwo = await categoryLevelInstance(sCategory, nId);
                         console.log(`${index+1} - ${index2+1} L2 Instance Fetched`);
                         if (levelTwo && levelTwo.length) {
                             sCategory.subCategory = levelTwo;
