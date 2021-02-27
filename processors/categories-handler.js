@@ -40,6 +40,10 @@ categoryInstance = (async (category) => {
         // https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Darts-crafts-intl-ship
         const pageLoaded = await page(url);
         const pageScrapped = await pageLoaded.evaluate(() => {
+            const queryParams = (url, query) => {
+                const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            };
             const refinements = $("#s-refinements div.a-section.a-spacing-none:contains('Department')").find('ul li a');
             const levelOne = [];
             const mainCategories = [];
@@ -49,9 +53,9 @@ categoryInstance = (async (category) => {
                 const href = $(refinement).attr('href');
                 const name = $(refinement).find('span').text();
                 const urlParams = new URLSearchParams(href);
-                let rh = urlParams.get('rh');
-                let rnid = urlParams.get('rnid');
-                let nIds = rh.split(',');
+                let rh = queryParams(href, 'rh');
+                let rnid = queryParams(href, 'rnid');
+                let nIds = rh ? rh.split(',') : [];
                 nIds = nIds.map(n => n.split(":").pop());
                 catId = rnid;
                 levelOne.push({
@@ -133,7 +137,8 @@ categoriesLevelOne = (async (categoriesList) => {
             if (mainCategories && mainCategories.length) {
                 category.remove = true;
                 additionalCategories = _.concat(additionalCategories, mainCategories);
-            }
+            }            
+            console.log(`${index+1} L1 Instance Fetched`);
         }
     }
     await fetcherLoop();
@@ -150,12 +155,15 @@ categoriesLevelLoop = (async (categoriesList) => {
         for (let index = 0; index < noOfProducts; index++) {
             const { subCategory, nId } = categoriesList[index];
             async function fetcherLoopDInstance() {
-                const noOfProducts = subCategory.length;
-                for (let index = 0; index < noOfProducts; index++) {
-                    const sCategory = subCategory[index];
-                    let { levelTwo } = await categoryLevelInstance(sCategory, nId);
-                    if (levelTwo && levelTwo.length) {
-                        sCategory.subCategory = levelTwo;
+                if(subCategory && subCategory.length) {
+                    const noOfProducts2 = subCategory.length;
+                    for (let index2 = 0; index2 < noOfProducts2; index2++) {
+                        const sCategory = subCategory[index2];
+                        let { levelTwo } = await categoryLevelInstance(sCategory, nId);
+                        console.log(`${index+1} - ${index2+1} L2 Instance Fetched`);
+                        if (levelTwo && levelTwo.length) {
+                            sCategory.subCategory = levelTwo;
+                        }
                     }
                 }
             }
@@ -165,7 +173,7 @@ categoriesLevelLoop = (async (categoriesList) => {
     await fetcherLoop();
     return categoriesList;
 });
-const testCategories = true;
+const testCategories = false;
 const categories = async () => {
     return new Promise(async (resolve, reject) => {
         try {
