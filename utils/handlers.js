@@ -17,4 +17,9 @@ const error = (message) => {
     }
     return processed;
 }
-module.exports = { success, error };
+
+const queryParams = (url, query) => {
+    const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+};
+module.exports = { success, error, queryParams };

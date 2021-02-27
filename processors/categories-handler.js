@@ -75,20 +75,26 @@ categoryLevelInstance = (async (sCategory, nId) => {
         const url = `${host}/s?bbn=${nId}&rh=n:${nId},n:${sCategory.nId}`;
         // https://www.amazon.com/s?i=automotive-intl-ship&bbn=2562090011&rh=n:2562090011,n:15718271,n:15718291,n:15718301,n:19351186011&dc&qid=1614313546&rnid=15718301&ref=sr_nr_n_1
         const pageLoaded = await page(url);
-        console.log(url);
+        // console.log(url);
         const pageScrapped = await pageLoaded.evaluate(() => {
-            const refinements = $("#s-refinements div.a-section.a-spacing-none:contains('Department')").find('ul li.s-navigation-indent-2 a');
-            if(refinements) {
-                refinements = $("#s-refinements div.a-section.a-spacing-none:contains('Department')").find('ul li.s-navigation-indent-1 a')
+            const queryParams = (url, query) => {
+                const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            };
+            const deptElementElement = $("#s-refinements div.a-section.a-spacing-none:contains('Department')");
+            let refinements = deptElementElement.find('ul li.s-navigation-indent-2 a');
+            if (!refinements) {
+                refinements = deptElementElement.find('ul li.s-navigation-indent-1 a')
             }
             const levelTwo = [];
+            // return refinements;
             $(refinements).each((i, refinement) => {
                 const href = $(refinement).attr('href');
                 const name = $(refinement).find('span').text();
-                const urlParams = new URLSearchParams(href);
-                let rh = urlParams.get('rh');
-                let node = urlParams.get('node');
-                if(rh) {
+                // const urlParams = new URLSearchParams(href);
+                let rh = queryParams(href, 'rh');
+                let node = queryParams(href, 'node');
+                if (rh) {
                     let nIds = rh.split(',');
                     nIds = nIds.map(n => n.split(":").pop());
                     levelTwo.push({
@@ -96,11 +102,12 @@ categoryLevelInstance = (async (sCategory, nId) => {
                         nId: nIds[2] ? nIds[2] : nIds[1],
                         treeIndex: 2
                     });
-                } else if(node) {
+                } else if (node) {
                     levelTwo.push({
                         name,
                         node,
-                        treeIndex: 2
+                        treeIndex: 2,
+                        endOfTree: true
                     });
                 }
             });
@@ -146,9 +153,9 @@ categoriesLevelLoop = (async (categoriesList) => {
                 const noOfProducts = subCategory.length;
                 for (let index = 0; index < noOfProducts; index++) {
                     const sCategory = subCategory[index];
-                    let { levelOne } = await categoryLevelInstance(sCategory, nId);
-                    if (levelOne && levelOne.length) {
-                        sCategory.subCategory = levelOne;
+                    let { levelTwo } = await categoryLevelInstance(sCategory, nId);
+                    if (levelTwo && levelTwo.length) {
+                        sCategory.subCategory = levelTwo;
                     }
                 }
             }
@@ -158,25 +165,43 @@ categoriesLevelLoop = (async (categoriesList) => {
     await fetcherLoop();
     return categoriesList;
 });
-
+const testCategories = true;
 const categories = async () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let mainCategories = await fetchMainCategory();
-            // resolve(mainCategories);
-            if (mainCategories && mainCategories.length) {
-                const splitted = await categoriesLevelOne(mainCategories);
-                const l2 = await categoriesLevelLoop(splitted);
-                resolve(splitted);
+            if (!testCategories) {
+                let mainCategories = await fetchMainCategory();
+                // resolve(mainCategories);
+                if (mainCategories && mainCategories.length) {
+                    const splitted = await categoriesLevelOne(mainCategories);
+                    // const l2 = await categoriesLevelLoop(splitted);
+                    resolve(splitted);
+                }
+            } else {
+                const mainCategories = await axios.get('http://localhost:8001/category/all').then(async (res) => {
+                    return res.data.data;
+                });
+                resolve(mainCategories);
+
             }
         } catch (e) {
             reject(e);
         }
-    }).then(d => {
-        return axios.post('http://localhost:8001/category/add', d).then(async (res) => {
-            console.log('Main Categories Pushed to DB');
-            categoriesLevelLoop(res.data.data);
-        });
+    }).then(async d => {
+        if (!testCategories) {
+            return axios.post('http://localhost:8001/category/add', d).then(async (res) => {
+                console.log('Main Categories [L1] Pushed to Collection');
+                const l2 = await categoriesLevelLoop(res.data.data);
+                return axios.post('http://localhost:8001/category/add', l2).then(async (res) => {
+                    console.log('Main Categories [L2] Pushed to Collection');
+                });
+            });
+        } else {
+            const l2 = await categoriesLevelLoop(d);
+            return l2;
+        }
+    }).catch(e => {
+        console.log(e);
     });
 }
 
