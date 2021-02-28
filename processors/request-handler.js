@@ -77,12 +77,8 @@ const processProd = (asin, html, key) => {
     return product;
 };
 
-const amazonScrapper = async function (key, pageNo) {
+const amazonScrapper = async function (url, pageNo) {
     return await new Promise(async (resolve, reject) => {
-        let url = `${host}/s?`;
-        if (key) {
-            url = `${url}k=${key}`;
-        }
         if (pageNo) {
             url = `${url}&page=${pageNo}`;
         }
@@ -141,59 +137,32 @@ const browserInstance = async (product) => {
     }
 }
 
-const extractProdInformation = async (products) => {
-    // console.log('Extracting Information Started!');
-    let generatedResponse = [];
+const extractProdInformation = async (products, job) => {
     async function fetcherLoop() {
         const noOfProducts = products.length;
+        await jobStatusUpadate(job, 0);
         for (let index = 0; index < noOfProducts; index++) {
             let insertResponse = await browserInstance(products[index]);
-            generatedResponse.push(_.merge(products[index], insertResponse));
+            const prod = _.merge(products[index], insertResponse);
+            await jobStatusUpadate(job, (index+1 / noOfProducts) * 100);
+            pushtoDB(prod, job);
         }
     }
     await fetcherLoop();
-    return generatedResponse;
+    return true;
 }
 
-const pushtoDB = async (products) => {
-    return new Promise((resolve, reject) => {
-        MongoClient.connect(dbHost, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }, (err, db) => {
-            if (err) reject(err);
-            var dbo = db.db("tokopedia-amazon");
-            const dbPromises = [];
-            dbPromises.push(new Promise((resolve, reject) => {
-                dbo.collection("amazon-products").insertMany(products, function (err, res) {
-                    if (err) reject(err);
-                    resolve(true);
-                });
-            }));
-            dbPromises.push(new Promise((resolve, reject) => {
-                dbo.collection("tokopedia-products").insertMany(products, function (err, res) {
-                    if (err) reject(err);
-                    resolve(true);
-                });
-            }));
-            dbPromises.push(new Promise((resolve, reject) => {
-                const association = products.map((p, i) => {
-                    return { id: i, asin: p.asin, sku: `SKU-${p.asin}` }
-                })
-                dbo.collection("products-associate").insertMany(association, function (err, res) {
-                    if (err) reject(err);
-                    resolve(true);
-                });
-            }));
-            Promise.all(dbPromises).then(d => {
-                db.close();
-                resolve(d);
-            });
-        });
-    }).then(d => d).catch(e => {
-        console.log('Pushed to DB');
+const pushtoDB = async (data, job) => {
+    return axios.post('http://localhost:8001/product/add', data).then(async (res) => {
+        return res.data.data;
     });
-}
+};
+
+const jobStatusUpadate = async ({_id, scheduleId}, percentage) => {
+    return axios.get(`http://localhost:8001/job/status/${_id}/${scheduleId}?percentage=${percentage}`).then(async (res) => {
+        return res.data.data;
+    });
+};
 
 const getFromDB = async () => {
     return new Promise((resolve, reject) => {

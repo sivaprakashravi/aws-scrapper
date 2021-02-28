@@ -17,10 +17,11 @@ module.exports = {
     get: async (route, callBack) => {
         app.get(routes[route], callBack)
     },
-    listen: (port) => {
+    listen: (port, callBack) => {
         app.listen(port, () => {
             process.setMaxListeners(Infinity);
             console.log(`${messages.APPRUNNING} ~~ ${port}`);
+            callBack();
         });
     }
 }

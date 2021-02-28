@@ -16,6 +16,7 @@ const { amazonScrapper,
     getFromDB,
     amazonLogin } = require('./processors/request-handler');
 const { categories } = require('./processors/categories-handler');
+const { job } = require('./processors/job-handler');
 const { success, error } = require('./utils/handlers');
 const messages = require('./utils/messages');
 const routes = require('./routes');
@@ -103,4 +104,6 @@ routes.get('AMAZONLOGIN', async (req, res) => {
     res.send({});
 })
 
-routes.listen(port);
+routes.listen(port, () => {
+    job();
+});
