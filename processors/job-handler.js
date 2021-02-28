@@ -26,6 +26,7 @@ const jobRunTypes = [
 ]
 // ['Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
 const job = async () => {
+    testCron();
     let jobs = await axios.get('http://localhost:8001/job/all').then(async (res) => {
         return res.data.data;
     });
@@ -34,20 +35,22 @@ const job = async () => {
         if (definedJob) {
             j.runAt = definedJob.schedule;
         } else {
-            j.runAt = '* * 0 * * *';
+            j.runAt = '0 1 * * *';
             j.destroy = true;
         }
         return j;
     })
     console.log('Job Scheduler Running');
     scheduleJob(jobs);
+
     // console.log('Triggered Job Completed');
 }
 
-
 const scheduleJob = async (jobs) => {
-    if (jobs && jobs.length) {
-        jobs.forEach(async sJob => {
+    async function jobLoop() {
+        const noOfjobs = jobs.length;
+        for (let index = 0; index < noOfjobs; index++) {
+            const sJob = jobs[index];
             const { nId, subCategory } = sJob;
             sJob.task = new cron.schedule(sJob.runAt, async () => {
                 console.log(`${sJob.runAt} - ${sJob.interval}`);
@@ -63,8 +66,41 @@ const scheduleJob = async (jobs) => {
                 const jobDone = await scrapper(sJob);
                 return jobDone;
             });
-        })
+        }
     }
-};
+    async function destroyLoop() {
+        const noOfjobs = jobs.length;
+        for (let index = 0; index < noOfjobs; index++) {
+            const sJob = jobs[index];
+            if (sJob && sJob.destroy && sJob.task) {
+                sJob.task.destroy();
+            }
+        }
+    }
+    await jobLoop();
+    await destroyLoop();
+    return true;
+}
+
+const testCron = async() => {
+    console.log('Testing Cron');
+    new cron.schedule('0 0 0 * * *', async () => {
+        let jobs = await axios.get('http://localhost:8001/job/all').then(async (res) => {
+            return res.data.data;
+        });
+        jobs = [jobs[0]];
+        jobs = jobs.map(j => {
+            j.runAt = '0 0 */1 * * *';
+            j.destroy = true;
+            return j;
+        })
+        console.log('Job Scheduler Running');
+        scheduleJob(jobs);
+    });
+}
+
+new cron.schedule('0 0 0 * * *', function () {
+    job();
+});
 
 module.exports = { job };
