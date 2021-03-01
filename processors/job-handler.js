@@ -26,7 +26,8 @@ const jobRunTypes = [
 ]
 // ['Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
 const job = async () => {
-    testCron();
+    // testCron();
+    // return;
     let jobs = await axios.get('http://localhost:8001/job/all').then(async (res) => {
         return res.data.data;
     });
@@ -51,56 +52,48 @@ const scheduleJob = async (jobs) => {
         const noOfjobs = jobs.length;
         for (let index = 0; index < noOfjobs; index++) {
             const sJob = jobs[index];
-            const { nId, subCategory } = sJob;
-            sJob.task = new cron.schedule(sJob.runAt, async () => {
+            const { category, subCategory } = sJob;
+            var jobSchedule = cron.schedule(sJob.runAt, async (e) => {
                 console.log(`${sJob.runAt} - ${sJob.interval}`);
                 console.log(`running a task --> ${sJob.interval}`);
-                let url = `${host}/s?bbn=${nId}&rh=n:${nId},n:${subCategory.nId}`;
+                let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
                 if (subCategory.subCategory && !subCategory.subCategory.node) {
                     url = `${url},n:${subCategory.subCategory.nId}`;
                 }
-                if (subCategory.subCategory.node) {
+                if (subCategory.subCategory && subCategory.subCategory.node) {
                     url = `${host}/s?node=${subCategory.subCategory.node}`;
                 }
                 sJob.url = url;
                 const jobDone = await scrapper(sJob);
+                if (sJob.destroy) {
+                    jobSchedule.destroy();
+                }
                 return jobDone;
             });
         }
     }
-    async function destroyLoop() {
-        const noOfjobs = jobs.length;
-        for (let index = 0; index < noOfjobs; index++) {
-            const sJob = jobs[index];
-            if (sJob && sJob.destroy && sJob.task) {
-                sJob.task.destroy();
-            }
-        }
-    }
     await jobLoop();
-    await destroyLoop();
     return true;
 }
 
-const testCron = async() => {
+const testCron = async () => {
     console.log('Testing Cron');
-    new cron.schedule('0 0 0 * * *', async () => {
-        let jobs = await axios.get('http://localhost:8001/job/all').then(async (res) => {
-            return res.data.data;
-        });
-        jobs = [jobs[0]];
-        jobs = jobs.map(j => {
-            j.runAt = '0 0 */1 * * *';
-            j.destroy = true;
-            return j;
-        })
-        console.log('Job Scheduler Running');
-        scheduleJob(jobs);
+    let jobs = await axios.get('http://localhost:8001/job/all').then(async (res) => {
+        return res.data.data;
+    });
+    jobs = jobs.map(j => {
+        j.runAt = '* * * * *';
+        j.destroy = true;
+        return j;
+    })
+    console.log('Job Scheduler Running');
+    scheduleJob(jobs);
+}
+
+const startJobs = () => {
+    new cron.schedule('0 0 0 * * *', function () {
+        job();
     });
 }
 
-new cron.schedule('0 0 0 * * *', function () {
-    job();
-});
-
-module.exports = { job };
+module.exports = { startJobs };

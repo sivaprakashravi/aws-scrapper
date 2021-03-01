@@ -9,14 +9,14 @@ const MongoClient = require('mongodb').MongoClient;
 const { JSDOM } = jsdom;
 const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
+const axios = require('axios');
 global.document = document;
 const $ = jQuery = require('jquery')(window);
-const processProd = (asin, html, key) => {
+const processProd = (asin, html, category, subCategory) => {
     $('body').html(html);
     let product = null;
     if (asin) {
         const initial_identifier = asin;
-        const uuid = $('body > div').attr('data-uuid');
         const primaryImage = $('body img').attr('src');
         const images = $('body img').attr('srcset');
         const imageList = images.split(', ');
@@ -47,13 +47,10 @@ const processProd = (asin, html, key) => {
         if (hrefsplit && hrefsplit[1]) {
             listing_url = decodeURIComponent(hrefsplit[1]);
         }
-        const category = key;
-        const subCategory = null;
         if (buybox_new_landed_price && buybox_new_listing_price) {
             product = {
                 asin,
                 initial_identifier,
-                uuid,
                 primaryImage,
                 altImages,
                 isSponsored,
@@ -77,40 +74,46 @@ const processProd = (asin, html, key) => {
     return product;
 };
 
-const amazonScrapper = async function (url, pageNo) {
+const amazonScrapper = async function (url, category, subCategory, pageNo) {
     return await new Promise(async (resolve, reject) => {
-        if (pageNo) {
-            url = `${url}&page=${pageNo}`;
-        }
-        const prodHTML = (async () => {
-            const pageLoaded = await page(url);
-            const pageScrapped = await pageLoaded.evaluate(() => {
-                let asinId = [];
-                let p = [];
-                $('body').html($('body').html().replace(/(\r\n|\n|\r)/gm, ''));
-                let html = $('body').html();
-                $('div[data-asin]').each(function () {
-                    asinId.push($(this).attr('data-asin'));
+        try {
+            if (pageNo) {
+                url = `${url}&page=${pageNo}`;
+            }
+            const prodHTML = (async () => {
+                let pageLoaded = await page(url);
+                if (!pageLoaded) {
+                    await browser();
+                    pageLoaded = await page(url);
+                }
+                const pageScrapped = await pageLoaded.evaluate(() => {
+                    let asinId = [];
+                    let p = [];
+                    $('body').html($('body').html().replace(/(\r\n|\n|\r)/gm, ''));
+                    let html = $('body').html();
+                    $('div[data-asin]').each(function () {
+                        asinId.push($(this).attr('data-asin'));
+                    });
+                    const pageNo = $('.a-pagination .a-disabled').last().text();
+                    asinId = asinId.filter(a => a);
+                    $(asinId).each(function (i, asin) {
+                        p.push({ asin, html: $(`div[data-asin="${asin}"]`).html() });
+                    });
+                    return { asinId, p, pageNo, html };
                 });
-                const pageNo = $('.a-pagination .a-disabled').last().text();
-                asinId = asinId.filter(a => a);
-                $(asinId).each(function (i, asin) {
-                    p.push({ asin: asin, html: $(`div[data-asin="${asin}"]`).html() });
-                });
-                return { asinId, p, pageNo, html };
+                await pageLoaded.close();
+                const time = (new Date().getTime() - pageLoaded.timeOn) / 1000;
+                // console.log(`${time} Seconds took - Browser Page Closed!`);
+                return pageScrapped;
             });
-            await pageLoaded.close();
-            const time = (new Date().getTime() - pageLoaded.timeOn) / 1000;
-            // console.log(`${time} Seconds took - Browser Page Closed!`);
-            return pageScrapped;
-        });
-        const pdts = await prodHTML();
-        const parsed = pdts.p.map(p => processProd(p.asin, p.html));
-        // console.log('Parsing done');
-        resolve({ pageNo: pdts.pageNo, list: parsed });
-    }).then((d) => {
-        return d;
-    });
+            const pdts = await prodHTML();
+            const parsed = pdts.p.map(p => processProd(p.asin, p.html, category, subCategory));
+            // console.log('Parsing done');
+            resolve({ pageNo: pdts.pageNo, list: parsed });
+        } catch (e) {
+            reject(e);
+        }
+    }).then((d) => d).catch(error => console.log(error));
 }
 
 const browserInstance = async (product) => {
@@ -140,12 +143,14 @@ const browserInstance = async (product) => {
 const extractProdInformation = async (products, job) => {
     async function fetcherLoop() {
         const noOfProducts = products.length;
-        await jobStatusUpadate(job, 0);
+        jobStatusUpadate(job, 0);
         for (let index = 0; index < noOfProducts; index++) {
             let insertResponse = await browserInstance(products[index]);
             const prod = _.merge(products[index], insertResponse);
-            await jobStatusUpadate(job, (index+1 / noOfProducts) * 100);
-            pushtoDB(prod, job);
+            const statusUpdated = await jobStatusUpadate(job, ((index + 1) / noOfProducts) * 100);
+            if (statusUpdated) {
+                pushtoDB(prod, job);
+            }
         }
     }
     await fetcherLoop();
@@ -158,7 +163,7 @@ const pushtoDB = async (data, job) => {
     });
 };
 
-const jobStatusUpadate = async ({_id, scheduleId}, percentage) => {
+const jobStatusUpadate = async ({ _id, scheduleId }, percentage) => {
     return axios.get(`http://localhost:8001/job/status/${_id}/${scheduleId}?percentage=${percentage}`).then(async (res) => {
         return res.data.data;
     });
