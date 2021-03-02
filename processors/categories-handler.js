@@ -189,7 +189,7 @@ const categories = async () => {
                     resolve(splitted);
                 }
             } else {
-                const mainCategories = await axios.get('http://localhost:8001/category/all').then(async (res) => {
+                const mainCategories = await axios.get(`${dbHost}category/all`).then(async (res) => {
                     return res.data.data;
                 });
                 resolve(mainCategories);
@@ -200,10 +200,10 @@ const categories = async () => {
         }
     }).then(async d => {
         if (!testCategories) {
-            return axios.post('http://localhost:8001/category/add', d).then(async (res) => {
+            return axios.post(`${dbHost}category/add`, d).then(async (res) => {
                 console.log('Main Categories [L1] Pushed to Collection');
                 const l2 = await categoriesLevelLoop(res.data.data);
-                return axios.post('http://localhost:8001/category/add', l2).then(async (res) => {
+                return axios.post(`${dbHost}category/add`, l2).then(async (res) => {
                     console.log('Main Categories [L2] Pushed to Collection');
                 });
             });

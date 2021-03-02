@@ -145,11 +145,20 @@ const extractProdInformation = async (products, job) => {
         const noOfProducts = products.length;
         jobStatusUpadate(job, 0);
         for (let index = 0; index < noOfProducts; index++) {
-            let insertResponse = await browserInstance(products[index]);
-            const prod = _.merge(products[index], insertResponse);
-            const statusUpdated = await jobStatusUpadate(job, ((index + 1) / noOfProducts) * 100);
-            if (statusUpdated) {
-                pushtoDB(prod, job);
+            try {
+                let insertResponse = await browserInstance(products[index]);
+                const prod = _.merge(products[index], insertResponse);
+                job.status = 'Running';
+                const statusUpdated = await jobStatusUpadate(job, ((index + 1) / noOfProducts) * 100);
+                if (statusUpdated) {
+                    pushtoDB(prod, job);
+                }
+            } catch(err) {
+                job.status = 'STOPPED';
+                const stopped = await jobStatusUpadate(job, ((index) / noOfProducts) * 100);
+                if(stopped) {
+                    console.log(`Job ${job.scheduleId} stopped`);
+                }
             }
         }
     }
@@ -158,13 +167,13 @@ const extractProdInformation = async (products, job) => {
 }
 
 const pushtoDB = async (data, job) => {
-    return axios.post('http://localhost:8001/product/add', data).then(async (res) => {
+    return axios.post(`${dbHost}product/add`, data).then(async (res) => {
         return res.data.data;
     });
 };
 
-const jobStatusUpadate = async ({ _id, scheduleId }, percentage) => {
-    return axios.get(`http://localhost:8001/job/status/${_id}/${scheduleId}?percentage=${percentage}`).then(async (res) => {
+const jobStatusUpadate = async ({ _id, scheduleId, status }, percentage) => {
+    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}`).then(async (res) => {
         return res.data.data;
     });
 };
