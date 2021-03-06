@@ -19,7 +19,7 @@ const processProd = (asin, html, category, subCategory) => {
         const initial_identifier = asin;
         const primaryImage = $('body img').attr('src');
         const images = $('body img').attr('srcset');
-        const imageList = images.split(', ');
+        const imageList = images ? images.split(', ') : [];
         const altImages = {};
         _.map(imageList, i => {
             const image = i.split(' ');

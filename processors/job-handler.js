@@ -38,7 +38,7 @@ const job = async () => {
     if (jobStartedAt && moment().diff(moment(jobStartedAt), 'days') === 0) {
 
     } else {
-        jobs = jobs.filter(j => (j.status && j.status !== 'Scheduled'));
+        jobs = jobs.filter(j => (j.status && j.status !== 'Scheduled' && j.interval !== 'Now'));
     }
     jobs = jobs.map(j => {
         const definedJob = jobRunTypes.find(jr => jr.mode === j.interval);
@@ -62,6 +62,12 @@ const getConfig = async () => {
     });
 }
 
+const jobStatusUpadate = async ({ _id, scheduleId, status }, percentage) => {
+    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}`).then(async (res) => {
+        return res.data.data;
+    });
+};
+
 const runScrapper = async (sJob) => {
     const config = await getConfig();
     sJob.config = config;
@@ -69,18 +75,17 @@ const runScrapper = async (sJob) => {
     if (active) {
         const { category, subCategory, scheduleId, _id } = sJob;
         const status = 'Scheduled';
-        axios.get(`${dbHost}job/status/${_id}/${scheduleId}?&status=${status}`).then(async (res) => {
-            return res.data.data;
-        });
+        const statusUpdated = await jobStatusUpadate({_id, scheduleId, status}, 0)
         // console.log(`${sJob.runAt} - ${sJob.interval}`);
         console.log(`running a task --> ${sJob.interval}`);
         let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
         if (subCategory.subCategory && !subCategory.subCategory.node) {
-            url = `${url},n:${subCategory.subCategory.nId}&ref=lp_${category.nId}_sar`;
+            url = `${url},n:${subCategory.subCategory.nId}`;
         }
         if (subCategory.subCategory && subCategory.subCategory.node) {
-            url = `${host}/s?node=${subCategory.subCategory.node}&ref=lp_${category.nId}_sar`;
+            url = `${host}/s?node=${subCategory.subCategory.node}`;
         }
+        url = `${url}&ref=lp_${category.nId}_sar&fs=true`;
         sJob.url = url;
         const jobDone = await scrapper(sJob);
         console.log(`Completed task --> ${sJob.scheduleId}`);
@@ -152,14 +157,14 @@ const startJobs = () => {
 
 const immediate = () => {
     new cron.schedule('* * * * *', async () => {
-        console.log(`Scheduler running from - ${jobStartedAt}`);
-        console.log(`on Demand Schedule Initiated! - ${moment().format()}`);
         let jobs = await axios.get(`${dbHost}job/all?interval=Now`).then(async (res) => {
             return res.data.data;
         });
         const newJobs = jobs.filter(j => j.status === 'New');
-        const isRunning = jobs.find(j => j.status === 'Running');
-        if (!isRunning && newJobs && newJobs.length) {
+        const isRunningScheduled = jobs.find(j => j.status === 'Running' || j.status === 'Scheduled');
+        if (!isRunningScheduled && newJobs && newJobs.length) {
+            console.log(`Scheduler running from - ${jobStartedAt}`);
+            console.log(`on Demand Schedule Initiated! - ${moment().format()}`);
             console.log('Immediate Job Available');
             scheduleJob(newJobs);
         }

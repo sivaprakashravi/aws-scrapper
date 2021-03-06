@@ -11,7 +11,12 @@ const scrapper = async (job) => {
     let { from, to } = job;
     from = from ? Number(from) : 0;
     to = to ? Number(to) : 100;
-    const threshold = (to - from)
+    let threshold = (to - from);
+    if(threshold > (pageNo * prodsPerPage)) {
+        console.log(`${job.scheduleId} - Threshold is Higher than available products: ${threshold} / ${pageNo * prodsPerPage}`);
+        from = 0;
+        threshold = pageNo * prodsPerPage;
+    }
     if (pageNo && pageNo > 1) {
         return new Promise(async (resolve, reject) => {
             try {
