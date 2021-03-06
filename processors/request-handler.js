@@ -149,13 +149,15 @@ const extractProdInformation = async (products, job) => {
                 let insertResponse = await browserInstance(products[index]);
                 const prod = _.merge(products[index], insertResponse);
                 job.status = 'Running';
-                const statusUpdated = await jobStatusUpadate(job, ((index + 1) / noOfProducts) * 100);
+                const percentage = noOfProducts ? ((index + 1) / noOfProducts) * 100 : 0;
+                const statusUpdated = await jobStatusUpadate(job, percentage);
                 if (statusUpdated) {
                     pushtoDB(prod, job);
                 }
             } catch(err) {
                 job.status = 'STOPPED';
-                const stopped = await jobStatusUpadate(job, ((index) / noOfProducts) * 100);
+                const percentage = noOfProducts ? ((index + 1) / noOfProducts) * 100 : 0;
+                const stopped = await jobStatusUpadate(job, percentage);
                 if(stopped) {
                     console.log(`Job ${job.scheduleId} stopped`);
                 }
@@ -167,6 +169,7 @@ const extractProdInformation = async (products, job) => {
 }
 
 const pushtoDB = async (data, job) => {
+    data.jobId = job.scheduleId;
     return axios.post(`${dbHost}product/add`, data).then(async (res) => {
         return res.data.data;
     });
