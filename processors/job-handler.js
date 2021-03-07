@@ -3,6 +3,7 @@ const cron = require('node-cron');
 const axios = require('axios');
 const moment = require('moment');
 const { scrapper } = require('./scraping-handler');
+const { jobStatusUpadate, stopJob } = require('./../utils/handlers');
 const timeForAProduct = 8; // in sec [assumption on page processing time]
 const waitTimeForNextJob = 0; // in minutes
 const jobRunTypes = [
@@ -62,12 +63,6 @@ const getConfig = async () => {
     });
 }
 
-const jobStatusUpadate = async ({ _id, scheduleId, status }, percentage) => {
-    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}`).then(async (res) => {
-        return res.data.data;
-    });
-};
-
 const runScrapper = async (sJob) => {
     const config = await getConfig();
     sJob.config = config;
@@ -75,7 +70,7 @@ const runScrapper = async (sJob) => {
     if (active) {
         const { category, subCategory, scheduleId, _id } = sJob;
         const status = 'Scheduled';
-        const statusUpdated = await jobStatusUpadate({_id, scheduleId, status}, 0)
+        jobStatusUpadate({ _id, scheduleId, status }, 0);
         // console.log(`${sJob.runAt} - ${sJob.interval}`);
         console.log(`running a task --> ${sJob.interval}`);
         let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
@@ -88,6 +83,9 @@ const runScrapper = async (sJob) => {
         url = `${url}&ref=lp_${category.nId}_sar&fs=true`;
         sJob.url = url;
         const jobDone = await scrapper(sJob);
+        if (sJob.interval === 'Now' && !sJob.recursive) {
+            await stopJob(sJob);
+        }
         console.log(`Completed task --> ${sJob.scheduleId}`);
         return jobDone;
     } else {
@@ -113,7 +111,7 @@ const scheduleJob = async (jobs) => {
                     sJob.runAt = `${minutes + 2} ${hour} * * *`;
                 }
             }
-            if(sJob.interval !== 'Now') {
+            if (sJob.interval !== 'Now') {
                 var jobSchedule = cron.schedule(sJob.runAt, async (e) => {
                     await runScrapper(sJob);
                     if (sJob.destroy) {

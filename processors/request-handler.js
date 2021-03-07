@@ -3,6 +3,7 @@ const { removeSplChar } = require('./../utils/formatter');
 const { prodDimensions, itemDimensions } = require('./../helpers/query-helper');
 const { browser, page, html } = require('./../processors/browser-handler');
 const { fetchAll } = require('./../processors/categories-handler');
+const { jobStatusUpadate } = require('./../utils/handlers');
 const _ = require('lodash');
 const jsdom = require("jsdom");
 const MongoClient = require('mongodb').MongoClient;
@@ -32,9 +33,9 @@ const processProd = (asin, html, category, subCategory) => {
         prodMinDesc = (label === prodMinDesc) ? '' : prodMinDesc;
         const rating = $("span.a-icon-alt:contains('5')").text();
         const noOfRating = removeSplChar($(".a-link-normal .a-size-base").text(), true);
-        let buybox_new_landed_price = removeSplChar($('.a-text-price > .a-offscreen').text().substr(1), true);
-        const list_price_currency_code = $('.a-text-price > .a-offscreen').text()[0];
-        const buybox_new_listing_price = removeSplChar($('.a-price-whole').text(), true);
+        let buybox_new_landed_price = $('.a-price[data-a-color="secondary"] .a-offscreen').text().substr(1);
+        const list_price_currency_code = $('.a-price[data-a-color="base"] .a-offscreen').text()[0];
+        let buybox_new_listing_price = $('.a-price[data-a-color="base"] .a-offscreen').text().substr(1);
         buybox_new_landed_price = buybox_new_landed_price ? buybox_new_landed_price : buybox_new_listing_price;
         const actualPerPercentage = (buybox_new_landed_price / 100);
         const offerPercentage = Math.ceil((buybox_new_landed_price - buybox_new_listing_price) / actualPerPercentage);
@@ -113,7 +114,7 @@ const amazonScrapper = async function (url, category, subCategory, pageNo) {
         } catch (e) {
             reject(e);
         }
-    }).then((d) => d).catch(error => console.log(error));
+    }).then((d) => d).catch(e => e);
 }
 
 const browserInstance = async (product) => {
@@ -171,12 +172,6 @@ const extractProdInformation = async (products, job) => {
 const pushtoDB = async (data, job) => {
     data.jobId = job.scheduleId;
     return axios.post(`${dbHost}product/add`, data).then(async (res) => {
-        return res.data.data;
-    });
-};
-
-const jobStatusUpadate = async ({ _id, scheduleId, status }, percentage) => {
-    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}`).then(async (res) => {
         return res.data.data;
     });
 };

@@ -1,6 +1,7 @@
 
 
 const { amazonScrapper, extractProdInformation } = require('./request-handler');
+const { jobLog } = require('./../utils/handlers');
 const _ = require('lodash');
 const scrapper = async (job) => {
     const { category, subCategory } = job;
@@ -13,9 +14,11 @@ const scrapper = async (job) => {
     to = to ? Number(to) : 100;
     let threshold = (to - from);
     if(threshold > (pageNo * prodsPerPage)) {
-        console.log(`${job.scheduleId} - Threshold is Higher than available products: ${threshold} / ${pageNo * prodsPerPage}`);
+        const message = `${job.scheduleId} - Threshold is Higher than available products: ${threshold} / ${pageNo * prodsPerPage}`; 
+        console.log(message);
         from = 0;
         threshold = pageNo * prodsPerPage;
+        jobLog(message);
     }
     if (pageNo && pageNo > 1) {
         return new Promise(async (resolve, reject) => {
@@ -48,6 +51,7 @@ const scrapper = async (job) => {
             return addData;
         }).catch(error => {
             console.log(error);
+            return error;
         });
     }
 
