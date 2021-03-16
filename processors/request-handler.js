@@ -11,6 +11,7 @@ const { JSDOM } = jsdom;
 const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 const axios = require('axios');
+const { asyncDownload } = require('./images-handler');
 global.document = document;
 const $ = jQuery = require('jquery')(window);
 const processProd = (asin, html, category, subCategory) => {
@@ -122,9 +123,25 @@ const browserInstance = async (product) => {
         const url = `${host}${product.listing_url}`;
         const pageLoaded = await page(url);
         const pageScrapped = await pageLoaded.evaluate(() => {
+            const filename = (path) => {
+                path = path.substring(path.lastIndexOf("/") + 1);
+                return (path.match(/[^.]+(\.[^?#]+)?/) || [])[0];
+            }
             $('body').html($('body').html().replace(/(\r\n|\n|\r)/gm, ''));
             const psProduct = {};
             const productDetails = $('#prodDetails');
+            const altImages = $('#altImages li.imageThumbnail img');
+            const imageList = [];
+            if (altImages && altImages.length) {
+                altImages.each((i, alt) => {
+                    let name = filename($(alt).attr('src'));
+                    name = name.split('.');
+                    if (name && name.length) {
+                        imageList.push(`${name[0]}.${name[name.length - 1]}`);
+                    }
+                });
+            }
+            psProduct.altImages = imageList;
             psProduct.brand = productDetails.find("tr:contains('Manufacturer') td:last-child").text();
             psProduct.description = $('#productDescription p').text();
             psProduct.color = productDetails.find("tr:contains('Colour') td:last-child").text();
@@ -137,6 +154,10 @@ const browserInstance = async (product) => {
         pageLoaded.close();
         // const time = (new Date().getTime() - pageLoaded.timeOn) / 1000;
         // console.log(`${time} Seconds took - Browser Page Closed!`);
+        const { altImages } = pageScrapped;
+        if (altImages && altImages.length) {
+            asyncDownload(altImages, product.asin);
+        }
         return pageScrapped;
     }
 }
@@ -155,11 +176,11 @@ const extractProdInformation = async (products, job) => {
                 if (statusUpdated) {
                     pushtoDB(prod, job);
                 }
-            } catch(err) {
+            } catch (err) {
                 job.status = 'STOPPED';
                 const percentage = noOfProducts ? ((index + 1) / noOfProducts) * 100 : 0;
                 const stopped = await jobStatusUpadate(job, percentage);
-                if(stopped) {
+                if (stopped) {
                     console.log(`Job ${job.scheduleId} stopped`);
                 }
             }
