@@ -63,11 +63,19 @@ const getConfig = async () => {
     });
 }
 
+processingTime = (ms) => {
+    var minutes = Math.floor(ms / 60000);
+    var seconds = ((ms % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
+
 const runScrapper = async (sJob) => {
     const config = await getConfig();
     sJob.config = config;
     const { host, active } = config;
     if (active) {
+        const startTime = new Date().getTime();
         const { category, subCategory, scheduleId, _id } = sJob;
         const status = 'Scheduled';
         jobStatusUpadate({ _id, scheduleId, status }, 0);
@@ -86,7 +94,10 @@ const runScrapper = async (sJob) => {
         if (sJob.interval === 'Now' && !sJob.recursive) {
             await stopJob(sJob);
         }
-        console.log(`Completed task --> ${sJob.scheduleId}`);
+        const endTime = new Date().getTime();
+        const computedTime = endTime - startTime;
+        const time = processingTime(computedTime);
+        console.log(`${time} <-- Time took to Completed task --> ${sJob.scheduleId}`);
         return jobDone;
     } else {
         console.log(`suspending task --> ${sJob.scheduleId}`);
@@ -163,7 +174,7 @@ const immediate = () => {
         if (!isRunningScheduled && newJobs && newJobs.length) {
             console.log(`Scheduler running from - ${jobStartedAt}`);
             console.log(`on Demand Schedule Initiated! - ${moment().format()}`);
-            console.log('Immediate Job Available');
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Instant Schedule Running!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
             scheduleJob(newJobs);
         }
     });
