@@ -102,7 +102,7 @@ routes.get('JOBS', async (req, res) => {
 routes.get('AMAZONLOGIN', async (req, res) => {
     const status = await amazonLogin();
     res.send({});
-})
+});
 
 routes.listen(port, () => {
     startJobs();

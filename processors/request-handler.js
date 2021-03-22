@@ -144,6 +144,10 @@ const browserInstance = async (product) => {
             psProduct.altImages = imageList;
             psProduct.brand = productDetails.find("tr:contains('Manufacturer') td:last-child").text();
             psProduct.description = $('#productDescription p').text();
+            if(!psProduct.description) {
+                psProduct.description = $('#feature-bullets ul').text();
+                psProduct.description = $.trim(psProduct.description);
+            }
             psProduct.color = productDetails.find("tr:contains('Colour') td:last-child").text();
             psProduct.features = productDetails.find("tr:contains('Special features') td:last-child").text();
             psProduct.model = productDetails.find("tr:contains('Item model number') td:last-child").text();
@@ -178,6 +182,7 @@ const extractProdInformation = async (products, job) => {
                 }
             } catch (err) {
                 job.status = 'STOPPED';
+                console.log(err);
                 const percentage = noOfProducts ? ((index + 1) / noOfProducts) * 100 : 0;
                 const stopped = await jobStatusUpadate(job, percentage);
                 if (stopped) {

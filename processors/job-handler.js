@@ -122,7 +122,7 @@ const scheduleJob = async (jobs) => {
                     sJob.runAt = `${minutes + 2} ${hour} * * *`;
                 }
             }
-            if (sJob.interval !== 'Now') {
+            if (sJob.interval !== 'Now' && sJob.status === 'New') {
                 var jobSchedule = cron.schedule(sJob.runAt, async (e) => {
                     await runScrapper(sJob);
                     if (sJob.destroy) {

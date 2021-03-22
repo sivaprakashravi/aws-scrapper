@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const messages = require('./utils/messages');
+const { fileSaver } = require('./constants/defaults');
 const app = express();
 app.use(cors());
 const routes = {
@@ -10,7 +11,8 @@ const routes = {
     JOBS: '/amazon/jobs',
     CATEGORY: '/amazon/categories',
     DATA: '/amazon/data',
-    AMAZONLOGIN: '/amazon/login'
+    AMAZONLOGIN: '/amazon/login',
+    IMAGES: '/amazon/images'
 };
 
 module.exports = {
@@ -18,6 +20,7 @@ module.exports = {
         app.get(routes[route], callBack)
     },
     listen: (port, callBack) => {
+        app.use(routes.IMAGES, express.static(`${__dirname}/${fileSaver}`));
         app.listen(port, () => {
             process.setMaxListeners(Infinity);
             console.log(`${messages.APPRUNNING} ~~ ${port}`);
