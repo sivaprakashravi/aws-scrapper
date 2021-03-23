@@ -145,7 +145,7 @@ const browserInstance = async (product) => {
             psProduct.brand = productDetails.find("tr:contains('Manufacturer') td:last-child").text();
             psProduct.description = $('#productDescription p').text();
             if(!psProduct.description) {
-                psProduct.description = $('#feature-bullets ul').text();
+                psProduct.description = $('#feature-bullets ul li').not($(['class*="hidden"'])).text();
                 psProduct.description = $.trim(psProduct.description);
             }
             psProduct.color = productDetails.find("tr:contains('Colour') td:last-child").text();
