@@ -152,20 +152,40 @@ categoriesLevelOne = (async (categoriesList) => {
     return categoriesList;
 });
 
-categoriesLevelLoop = (async (categoriesList) => {
+categoriesLevelTwo = (async (categoriesList) => {
     async function fetcherLoop() {
         const noOfProducts = categoriesList.length;
         for (let index = 0; index < noOfProducts; index++) {
             const { subCategory, nId } = categoriesList[index];
             async function fetcherLoopDInstance() {
-                if(subCategory && subCategory.length) {
+                if (subCategory && subCategory.length) {
                     const noOfProducts2 = subCategory.length;
                     for (let index2 = 0; index2 < noOfProducts2; index2++) {
                         const sCategory = subCategory[index2];
-                        let levelTwo = await categoryLevelInstance(sCategory, nId);
-                        console.log(`${index+1} - ${index2+1} L2 Instance Fetched`);
+                        const params1 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId}`;
+                        let levelTwo = await categoryLevelInstance(params1);
+                        console.log(`${index + 1} - ${index2 + 1} L2 Instance Fetched`);
                         if (levelTwo && levelTwo.length) {
                             sCategory.subCategory = levelTwo;
+                            // l3
+                            for (let index3 = 0; index3 < levelTwo.length; index3++) {
+                                const l3 = levelTwo[index3];
+                                async function fetcherLoopDInstance2() {
+                                    if (l3.subCategory && l3.subCategory.length) {
+                                        const levelTwo2 = l3.subCategory.length;
+                                        for (let index4 = 0; index4 < levelTwo2; index4++) {
+                                            const sCategory2 = l3.subCategory[index4];
+                                            const params2 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId},n:${sCategory2.nId}`;
+                                            let levelTwo = await categoryLevelInstance(params2);
+                                            console.log(`${index + 1} - ${index2 + 1} - ${index3 + 1} - ${index4 + 1} L3 Instance Fetched`);
+                                            if (levelTwo && levelTwo.length) {
+                                                sCategory2.subCategory = levelTwo;
+                                            }
+                                        }
+                                    }
+                                }
+                                await fetcherLoopDInstance2();
+                            }
                         }
                     }
                 }
@@ -185,7 +205,7 @@ const categories = async () => {
                 // resolve(mainCategories);
                 if (mainCategories && mainCategories.length) {
                     const splitted = await categoriesLevelOne(mainCategories);
-                    // const l2 = await categoriesLevelLoop(splitted);
+                    // const l2 = await categoriesLevelTwo(splitted);
                     resolve(splitted);
                 }
             } else {
@@ -202,13 +222,13 @@ const categories = async () => {
         if (!testCategories) {
             return axios.post(`${dbHost}category/add`, d).then(async (res) => {
                 console.log('Main Categories [L1] Pushed to Collection');
-                const l2 = await categoriesLevelLoop(res.data.data);
+                const l2 = await categoriesLevelTwo(res.data.data);
                 return axios.post(`${dbHost}category/add`, l2).then(async (res) => {
                     console.log('Main Categories [L2] Pushed to Collection');
                 });
             });
         } else {
-            const l2 = await categoriesLevelLoop(d);
+            const l2 = await categoriesLevelTwo(d);
             return l2;
         }
     }).catch(e => {

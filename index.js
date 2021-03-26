@@ -32,7 +32,7 @@ routes.get('AMAZONPARENT', (req, res) => {
 });
 
 routes.get('CATEGORY', async (req, res) => {
-    await categories();
+    categories();
     res.send(success('Process Initiated!'));
 });
 
