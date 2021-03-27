@@ -39,24 +39,23 @@ categoryInstance = (async (category) => {
         const url = `${host}/s/ref=nb_sb_noss?url=${category.value}`;
         // https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Darts-crafts-intl-ship
         const pageLoaded = await page(url);
-        const pageScrapped = await pageLoaded.evaluate(() => {
+        const pageScrapped = await pageLoaded.evaluate(async() => {
             const queryParams = (url, query) => {
                 const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
             };
             const refinements = $("#s-refinements div.a-section.a-spacing-none:contains('Department')").find('ul li a');
+            const sar = $('.apb-browse-searchresults-footer a').attr('href');
+            const mainSar = queryParams(sar, 'rh');
             const levelOne = [];
             const mainCategories = [];
-            let catId;
+            let catId = mainSar ? mainSar.split(':')[1] : null;
             $(refinements).each((i, refinement) => {
-                catId = null;
                 const href = $(refinement).attr('href');
                 const name = $(refinement).find('span').text();
                 let rh = queryParams(href, 'rh');
-                let rnid = queryParams(href, 'rnid');
                 let nIds = rh ? rh.split(',') : [];
                 nIds = nIds.map(n => n.split(":").pop());
-                catId = rnid;
                 levelOne.push({
                     name,
                     nId: nIds[1] ? nIds[1] : nIds[0],
@@ -73,9 +72,9 @@ categoryInstance = (async (category) => {
     }
 });
 
-categoryLevelInstance = (async (sCategory, nId) => {
-    if (sCategory && sCategory.nId) {
-        const url = `${host}/s?bbn=${nId}&rh=n:${nId},n:${sCategory.nId}`;
+categoryLevelInstance = (async (params) => {
+    if (params) {
+        const url = `${host}/s?${params}`;
         // https://www.amazon.com/s?i=automotive-intl-ship&bbn=2562090011&rh=n:2562090011,n:15718271,n:15718291,n:15718301,n:19351186011&dc&qid=1614313546&rnid=15718301&ref=sr_nr_n_1
         let pageLoaded = await page(url);
         // console.log(url);
@@ -176,10 +175,10 @@ categoriesLevelTwo = (async (categoriesList) => {
                                         for (let index4 = 0; index4 < levelTwo2; index4++) {
                                             const sCategory2 = l3.subCategory[index4];
                                             const params2 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId},n:${sCategory2.nId}`;
-                                            let levelTwo = await categoryLevelInstance(params2);
+                                            let levelTwo3 = await categoryLevelInstance(params2);
                                             console.log(`${index + 1} - ${index2 + 1} - ${index3 + 1} - ${index4 + 1} L3 Instance Fetched`);
-                                            if (levelTwo && levelTwo.length) {
-                                                sCategory2.subCategory = levelTwo;
+                                            if (levelTwo3 && levelTwo3.length) {
+                                                sCategory2.subCategory = levelTwo3;
                                             }
                                         }
                                     }
