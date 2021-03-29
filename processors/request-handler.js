@@ -118,7 +118,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
     }).then((d) => d).catch(e => e);
 }
 
-const browserInstance = async (product) => {
+const browserInstance = async (product, onlyPrice) => {
     if (product && product.listing_url) {
         const url = `${host}${product.listing_url}`;
         const pageLoaded = await page(url);
@@ -144,14 +144,17 @@ const browserInstance = async (product) => {
             psProduct.altImages = imageList;
             psProduct.brand = productDetails.find("tr:contains('Manufacturer') td:last-child").text();
             psProduct.description = $('#productDescription p').text();
-            if(!psProduct.description) {
+            if (!psProduct.description) {
                 psProduct.description = $('#feature-bullets ul li').not($(['class*="hidden"'])).text();
                 psProduct.description = $.trim(psProduct.description);
             }
             psProduct.color = productDetails.find("tr:contains('Colour') td:last-child").text();
             psProduct.features = productDetails.find("tr:contains('Special features') td:last-child").text();
             psProduct.model = productDetails.find("tr:contains('Item model number') td:last-child").text();
-
+            psProduct.salePrice = $('#price_inside_buybox').text().substr(1);
+            const shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
+            const shippingValues = shipping.match(/\d+/g).map(Number);
+            psProduct.shippingPrice = shippingValues.toString().replace(',', '.');
             psProduct.item_dimensions_weight = productDetails.find("tr:contains('Item Weight') td:last-child").text();
             return psProduct;
         });
@@ -159,7 +162,7 @@ const browserInstance = async (product) => {
         // const time = (new Date().getTime() - pageLoaded.timeOn) / 1000;
         // console.log(`${time} Seconds took - Browser Page Closed!`);
         const { altImages } = pageScrapped;
-        if (altImages && altImages.length) {
+        if (altImages && altImages.length && !onlyPrice) {
             asyncDownload(altImages, product.asin);
         }
         return pageScrapped;
@@ -219,8 +222,44 @@ const getFromDB = async () => {
     });
 }
 
+const getProducts = async () => {
+    const products = await axios.get(`${dbHost}products/all`).then(async (res) => {
+        return res.data.data;
+    });
+    if (products && products.length) {
+        return products;
+    }
+}
+
+const watchProducts = async ({ host }) => {
+    const products = await getProducts();
+    async function fetchProd() {
+        const noOfProducts = products.length;
+        const verify = ['salePrice', 'shippingPrice'];
+        for (let index = 0; index < noOfProducts; index++) {
+            const { asin } = products[index];
+            const newDetails = await browserInstance(products[index], true);
+            const amznProd = await axios.get(`${dbHost}product/${asin}`).then(async (res) => {
+                return res.data.data;
+            });
+            if(newDetails.salePrice !== amznProd.salePrice || newDetails.shippingPrice !== amznProd.shippingPrice) {  
+                const data= {
+                    asin,
+                    shippingPrice: newDetails.shippingPrice,
+                    salePrice: newDetails.salePrice
+                }              
+                axios.post(`${dbHost}notification/add`, data).then(async (res) => {
+                    console.log(`ASIN: ${asin} - New Price / Stock Scrapped`);
+                });
+            }
+        }
+    }
+    await fetchProd();
+
+}
+
 const amazonLogin = async function () {
     return true;
 }
 
-module.exports = { amazonScrapper, extractProdInformation, pushtoDB, getFromDB, amazonLogin };
+module.exports = { amazonScrapper, extractProdInformation, pushtoDB, getFromDB, amazonLogin, watchProducts };

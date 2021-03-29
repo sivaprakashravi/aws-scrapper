@@ -4,6 +4,7 @@ const axios = require('axios');
 const moment = require('moment');
 const { scrapper } = require('./scraping-handler');
 const { jobStatusUpadate, stopJob } = require('./../utils/handlers');
+const {watchProducts} = require('./request-handler');
 const timeForAProduct = 8; // in sec [assumption on page processing time]
 const waitTimeForNextJob = 0; // in minutes
 const jobRunTypes = [
@@ -156,6 +157,7 @@ const startJobs = () => {
     // job();
     // return;
     immediate();
+    watch();
     jobStartedAt = moment().format();
     new cron.schedule('0 0 0 * * *', function () {
         console.log(`Scheduler running from - ${jobStartedAt}`);
@@ -180,4 +182,19 @@ const immediate = () => {
     });
 }
 
-module.exports = { startJobs, immediate };
+const watch = async () => {
+    const config = await getConfig();
+    const { active, watchInterval } = config;
+    if(active) {
+        // const runAt = `0 0 * * ${watchInterval}`;
+        const runAt = '21 17 * * *';
+        new cron.schedule(runAt, function () {
+            console.log(`Watch Tasks running`);
+            console.log(`Watch Initiated Today! - ${moment().format()}`);
+            watchProducts(config);
+        });
+
+    }
+}
+
+module.exports = { startJobs, immediate, watch };
