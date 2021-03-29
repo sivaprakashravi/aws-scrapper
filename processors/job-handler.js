@@ -76,17 +76,17 @@ const runScrapper = async (sJob) => {
     const { host, active } = config;
     if (active) {
         const startTime = new Date().getTime();
-        const { category, subCategory, scheduleId, _id } = sJob;
+        const { category, subCategory, subCategory1, scheduleId, _id } = sJob;
         const status = 'Scheduled';
         jobStatusUpadate({ _id, scheduleId, status }, 0);
         // console.log(`${sJob.runAt} - ${sJob.interval}`);
         console.log(`running a task --> ${sJob.interval}`);
         let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
-        if (subCategory.subCategory && !subCategory.subCategory.node) {
-            url = `${url},n:${subCategory.subCategory.nId}`;
+        if (subCategory1 && !subCategory1.node) {
+            url = `${url},n:${subCategory1.nId}`;
         }
-        if (subCategory.subCategory && subCategory.subCategory.node) {
-            url = `${host}/s?node=${subCategory.subCategory.node}`;
+        if (subCategory1 && subCategory1.node) {
+            url = `${host}/s?node=${subCategory1.node}`;
         }
         url = `${url}&ref=lp_${category.nId}_sar&fs=true`;
         sJob.url = url;

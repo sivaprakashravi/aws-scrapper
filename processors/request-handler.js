@@ -76,7 +76,7 @@ const processProd = (asin, html, category, subCategory) => {
     return product;
 };
 
-const amazonScrapper = async function (url, category, subCategory, pageNo) {
+const amazonScrapper = async function (url, category, subCategory, subCategory1, pageNo) {
     return await new Promise(async (resolve, reject) => {
         try {
             if (pageNo) {

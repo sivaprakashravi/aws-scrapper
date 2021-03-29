@@ -30,7 +30,8 @@ const fetchMainCategory = (async () => {
         }
     });
     await pageLoaded.close();
-    primaryCategories.forEach(p => p.createdDate = moment().format())
+    primaryCategories.forEach(p => p.createdDate = moment().format());
+    // console.log(primaryCategories);
     return primaryCategories;
 });
 
@@ -39,7 +40,7 @@ categoryInstance = (async (category) => {
         const url = `${host}/s/ref=nb_sb_noss?url=${category.value}`;
         // https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Darts-crafts-intl-ship
         const pageLoaded = await page(url);
-        const pageScrapped = await pageLoaded.evaluate(async() => {
+        const pageScrapped = await pageLoaded.evaluate(async () => {
             const queryParams = (url, query) => {
                 const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
                 return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -53,13 +54,18 @@ categoryInstance = (async (category) => {
             $(refinements).each((i, refinement) => {
                 const href = $(refinement).attr('href');
                 const name = $(refinement).find('span').text();
+                let rnid = queryParams(href, 'rnid');
                 let rh = queryParams(href, 'rh');
                 let nIds = rh ? rh.split(',') : [];
                 nIds = nIds.map(n => n.split(":").pop());
+                if(rnid && !catId) {
+                    catId = rnid;
+                }
                 levelOne.push({
                     name,
                     nId: nIds[1] ? nIds[1] : nIds[0],
-                    treeIndex: 1
+                    treeIndex: 1,
+                    rnid
                 });
             });
             return { catId, levelOne, mainCategories };
@@ -67,60 +73,65 @@ categoryInstance = (async (category) => {
         pageLoaded.close();
         // const time = (new Date().getTime() - pageLoaded.timeOn) / 1000;
         // console.log(`${time} Seconds took - Browser Page Closed!`);
-        pageScrapped.mainCategories && pageScrapped.mainCategories.length ? pageScrapped.mainCategories.forEach(mc => mc.parentIndex = category.name) : null;
+        // pageScrapped.mainCategories && pageScrapped.mainCategories.length ? pageScrapped.mainCategories.forEach(mc => mc.parentIndex = category.name) : null;
         return pageScrapped;
     }
 });
 
-categoryLevelInstance = (async (params) => {
+const queryParams = (url, query) => {
+    const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+};
+
+categoryLevelInstance = (async (params, level) => {
     if (params) {
         const url = `${host}/s?${params}`;
         // https://www.amazon.com/s?i=automotive-intl-ship&bbn=2562090011&rh=n:2562090011,n:15718271,n:15718291,n:15718301,n:19351186011&dc&qid=1614313546&rnid=15718301&ref=sr_nr_n_1
         let pageLoaded = await page(url);
         // console.log(url);
-        if(!pageLoaded) {
+        if (!pageLoaded) {
             await browser();
             pageLoaded = await page(url);
         }
         const pageScrapped = await pageLoaded.evaluate(() => {
-            const queryParams = (url, query) => {
-                const match = RegExp('[?&]' + query + '=([^&]*)').exec(url);
-                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-            };
             const deptElementElement = $("#s-refinements div.a-section.a-spacing-none:contains('Department')");
-            let refinements = deptElementElement.find('ul li.s-navigation-indent-2 a');
+            let refinements = deptElementElement.find('ul li[class$="indent-2"] a');
             if (!refinements) {
-                refinements = deptElementElement.find('ul li.s-navigation-indent-1 a')
+                refinements = deptElementElement.find('ul li[class$="indent-1"] a')
             }
             const levelTwo = [];
             // return refinements;
             $(refinements).each((i, refinement) => {
                 const href = $(refinement).attr('href');
                 const name = $(refinement).find('span').text();
-                // const urlParams = new URLSearchParams(href);
-                let rh = queryParams(href, 'rh');
-                let node = queryParams(href, 'node');
-                if (rh) {
-                    let nIds = rh.split(',');
-                    nIds = nIds.map(n => n.split(":").pop());
-                    levelTwo.push({
-                        name,
-                        nId: nIds[2] ? nIds[2] : nIds[1],
-                        treeIndex: 2
-                    });
-                } else if (node) {
-                    levelTwo.push({
-                        name,
-                        node,
-                        treeIndex: 2,
-                        endOfTree: true
-                    });
-                }
+                levelTwo.push({ href, name });
             });
             return levelTwo;
         });
         pageLoaded.close();
-        return pageScrapped;
+        const scrap = [];
+        pageScrapped.forEach(({ href, name }) => {
+            // const urlParams = new URLSearchParams(href);
+            let rh = queryParams(href, 'rh');
+            let node = queryParams(href, 'node');
+            if (rh) {
+                let nIds = rh.split(',');
+                nIds = nIds.map(n => n.split(":").pop());
+                scrap.push({
+                    name,
+                    nId: nIds[level + 1] ? nIds[level + 1] : nIds[level],
+                    treeIndex: 2
+                });
+            } else if (node) {
+                scrap.push({
+                    name,
+                    node,
+                    treeIndex: 2,
+                    endOfTree: true
+                });
+            }
+        });
+        return scrap;
     }
 
 });
@@ -139,8 +150,8 @@ categoriesLevelOne = (async (categoriesList) => {
             if (mainCategories && mainCategories.length) {
                 category.remove = true;
                 additionalCategories = _.concat(additionalCategories, mainCategories);
-            }            
-            console.log(`${index+1} L1 Instance Fetched`);
+            }
+            console.log(`${index + 1} L1 Instance Fetched`);
         }
     }
     await fetcherLoop();
@@ -162,8 +173,8 @@ categoriesLevelTwo = (async (categoriesList) => {
                     for (let index2 = 0; index2 < noOfProducts2; index2++) {
                         const sCategory = subCategory[index2];
                         const params1 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId}`;
-                        let levelTwo = await categoryLevelInstance(params1);
-                        console.log(`${index + 1} - ${index2 + 1} L2 Instance Fetched`);
+                        let levelTwo = await categoryLevelInstance(params1, 1);
+                        console.log(`${index + 1} - ${index2 + 1} L2 Instance Fetched LL:${levelTwo.length}`);
                         if (levelTwo && levelTwo.length) {
                             sCategory.subCategory = levelTwo;
                             // l3
@@ -175,7 +186,7 @@ categoriesLevelTwo = (async (categoriesList) => {
                                         for (let index4 = 0; index4 < levelTwo2; index4++) {
                                             const sCategory2 = l3.subCategory[index4];
                                             const params2 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId},n:${sCategory2.nId}`;
-                                            let levelTwo3 = await categoryLevelInstance(params2);
+                                            let levelTwo3 = await categoryLevelInstance(params2, 2);
                                             console.log(`${index + 1} - ${index2 + 1} - ${index3 + 1} - ${index4 + 1} L3 Instance Fetched`);
                                             if (levelTwo3 && levelTwo3.length) {
                                                 sCategory2.subCategory = levelTwo3;
@@ -201,9 +212,11 @@ const categories = async () => {
         try {
             if (!testCategories) {
                 let mainCategories = await fetchMainCategory();
+                console.log(mainCategories.length);
                 // resolve(mainCategories);
                 if (mainCategories && mainCategories.length) {
                     const splitted = await categoriesLevelOne(mainCategories);
+                    // console.log(splitted);
                     // const l2 = await categoriesLevelTwo(splitted);
                     resolve(splitted);
                 }
@@ -222,9 +235,11 @@ const categories = async () => {
             return axios.post(`${dbHost}category/add`, d).then(async (res) => {
                 console.log('Main Categories [L1] Pushed to Collection');
                 const l2 = await categoriesLevelTwo(res.data.data);
-                return axios.post(`${dbHost}category/add`, l2).then(async (res) => {
-                    console.log('Main Categories [L2] Pushed to Collection');
-                });
+                l2.forEach((l, i) => {
+                    return axios.post(`${dbHost}category/add`, [l]).then(async (res) => {
+                        console.log(`Main Categories [L2: ${i+1}] Pushed to Collection`);
+                    });
+                })
             });
         } else {
             const l2 = await categoriesLevelTwo(d);
