@@ -96,7 +96,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                     $('div[data-asin]').each(function () {
                         asinId.push($(this).attr('data-asin'));
                     });
-                    const pageNo = $('.a-pagination .a-disabled').last().text();
+                    const pageNo = $('.a-pagination li:nth-last-child(2)').text();
                     asinId = asinId.filter(a => a);
                     $(asinId).each(function (i, asin) {
                         p.push({ asin, html: $(`div[data-asin="${asin}"]`).html() });
@@ -246,7 +246,8 @@ const watchProducts = async ({ host }) => {
                 const data= {
                     asin,
                     shippingPrice: newDetails.shippingPrice,
-                    salePrice: newDetails.salePrice
+                    salePrice: newDetails.salePrice,
+                    item_dimensions_weight: newDetails.item_dimensions_weight
                 }              
                 axios.post(`${dbHost}notification/add`, data).then(async (res) => {
                     console.log(`ASIN: ${asin} - New Price / Stock Scrapped`);
