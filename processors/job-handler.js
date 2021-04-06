@@ -64,6 +64,12 @@ const getConfig = async () => {
     });
 }
 
+const getUserConfig = async () => {
+    return axios.get(`${dbHost}configuration/user/all`).then(async (res) => {
+        return res.data.data;
+    });
+}
+
 processingTime = (ms) => {
     var minutes = Math.floor(ms / 60000);
     var seconds = ((ms % 60000) / 1000).toFixed(0);
@@ -183,17 +189,16 @@ const immediate = () => {
 }
 
 const watch = async () => {
-    const config = await getConfig();
-    const { active, watchInterval } = config;
+    const config = await getUserConfig();
+    const { active, priceStockInteval } = config;
     if(active) {
-        // const runAt = `0 0 * * ${watchInterval}`;
-        const runAt = '21 17 * * *';
+        const runAt = priceStockInteval;
+        // const runAt = '21 17 * * *';
         new cron.schedule(runAt, function () {
-            console.log(`Watch Tasks running`);
-            console.log(`Watch Initiated Today! - ${moment().format()}`);
+            console.log(`Watch Price Stock Tasks running`);
+            console.log(`Watch Price Stock Initiated Today! - ${moment().format()}`);
             watchProducts(config);
         });
-
     }
 }
 

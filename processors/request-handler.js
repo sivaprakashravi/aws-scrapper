@@ -156,6 +156,14 @@ const browserInstance = async (product, onlyPrice) => {
             const shippingValues = shipping.match(/\d+/g).map(Number);
             psProduct.shippingPrice = shippingValues.toString().replace(',', '.');
             psProduct.item_dimensions_weight = productDetails.find("tr:contains('Item Weight') td:last-child").text();
+            const availability = productDetails.find('#availability');
+            psProduct.availableStock = null;
+            if (availability) {
+                const stock = availability.text().match(/\d+/g).map(Number);
+                if (stock) {
+                    psProduct.availableStock = stock.toString();
+                }
+            }
             return psProduct;
         });
         pageLoaded.close();
@@ -242,13 +250,14 @@ const watchProducts = async ({ host }) => {
             const amznProd = await axios.get(`${dbHost}product/${asin}`).then(async (res) => {
                 return res.data.data;
             });
-            if(newDetails.salePrice !== amznProd.salePrice || newDetails.shippingPrice !== amznProd.shippingPrice) {  
-                const data= {
+            if (newDetails.salePrice !== amznProd.salePrice || newDetails.shippingPrice !== amznProd.shippingPrice || newDetails.availableStock !== amznProd.availableStock) {
+                const data = {
                     asin,
                     shippingPrice: newDetails.shippingPrice,
                     salePrice: newDetails.salePrice,
-                    item_dimensions_weight: newDetails.item_dimensions_weight
-                }              
+                    item_dimensions_weight: newDetails.item_dimensions_weight,
+                    availableStock: newDetails.availableStock
+                }
                 axios.post(`${dbHost}notification/add`, data).then(async (res) => {
                     console.log(`ASIN: ${asin} - New Price / Stock Scrapped`);
                 });
