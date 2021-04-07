@@ -25,8 +25,8 @@ const queryParams = (url, query) => {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 };
 
-const jobStatusUpadate = async ({ _id, scheduleId, status }, percentage) => {
-    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}`).then(async (res) => {
+const jobStatusUpadate = async ({ _id, scheduleId, status, address }, percentage) => {
+    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}&address=${address}`).then(async (res) => {
         return res.data.data;
     });
 };

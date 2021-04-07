@@ -2,9 +2,13 @@ const { dbHost } = require('./../constants/defaults');
 const cron = require('node-cron');
 const axios = require('axios');
 const moment = require('moment');
+const os = require('os');
 const { scrapper } = require('./scraping-handler');
 const { jobStatusUpadate, stopJob } = require('./../utils/handlers');
-const {watchProducts} = require('./request-handler');
+const { watchProducts } = require('./request-handler');
+const networkInterfaces = os.networkInterfaces();
+const { wlp3s0 } = networkInterfaces;
+const address = wlp3s0[0].address;
 const timeForAProduct = 8; // in sec [assumption on page processing time]
 const waitTimeForNextJob = 0; // in minutes
 const jobRunTypes = [
@@ -81,11 +85,11 @@ const runScrapper = async (sJob) => {
     const config = await getConfig();
     sJob.config = config;
     const { host, active } = config;
-    if (active) {
+    if (active && host) {
         const startTime = new Date().getTime();
         const { category, subCategory, subCategory1, scheduleId, _id } = sJob;
         const status = 'Scheduled';
-        jobStatusUpadate({ _id, scheduleId, status }, 0);
+        jobStatusUpadate({ _id, scheduleId, status, address }, 0);
         // console.log(`${sJob.runAt} - ${sJob.interval}`);
         console.log(`running a task --> ${sJob.interval}`);
         let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
@@ -178,7 +182,7 @@ const immediate = () => {
             return res.data.data;
         });
         const newJobs = jobs.filter(j => j.status === 'New');
-        const isRunningScheduled = jobs.find(j => j.status === 'Running' || j.status === 'Scheduled');
+        const isRunningScheduled = jobs.find(j => (j.status === 'Running' || j.status === 'Scheduled') && j.server === address);
         if (!isRunningScheduled && newJobs && newJobs.length) {
             console.log(`Scheduler running from - ${jobStartedAt}`);
             console.log(`on Demand Schedule Initiated! - ${moment().format()}`);
@@ -191,7 +195,7 @@ const immediate = () => {
 const watch = async () => {
     const config = await getUserConfig();
     const { active, priceStockInteval } = config;
-    if(active) {
+    if (active) {
         const runAt = priceStockInteval;
         // const runAt = '21 17 * * *';
         new cron.schedule(runAt, function () {
