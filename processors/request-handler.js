@@ -16,6 +16,8 @@ const networkInterfaces = os.networkInterfaces();
 const { asyncDownload } = require('./images-handler');
 global.document = document;
 const $ = jQuery = require('jquery')(window);
+const ip = require("ip");
+const address = ip.address();
 const processProd = (asin, html, category, subCategory) => {
     $('body').html(html);
     let product = null;
@@ -181,8 +183,6 @@ const browserInstance = async (product, onlyPrice) => {
 
 const extractProdInformation = async (products, job) => {
     jobStatusUpadate(job, 0);
-    const { wlp3s0 } = networkInterfaces;
-    const address = wlp3s0[0].address;
     job.address = address;
     async function fetcherLoop() {
         const noOfProducts = products.length;
