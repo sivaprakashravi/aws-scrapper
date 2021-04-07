@@ -153,15 +153,15 @@ const browserInstance = async (product, onlyPrice) => {
             psProduct.model = productDetails.find("tr:contains('Item model number') td:last-child").text();
             psProduct.salePrice = $('#price_inside_buybox').text().substr(1);
             const shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
-            const shippingValues = shipping.match(/\d+/g).map(Number);
+            const shippingValues = shipping ? shipping.match(/\d+/g).map(Number) : 0;
             psProduct.shippingPrice = shippingValues.toString().replace(',', '.');
             psProduct.item_dimensions_weight = productDetails.find("tr:contains('Item Weight') td:last-child").text();
             const availability = productDetails.find('#availability');
             psProduct.availableStock = null;
-            if (availability) {
+            if (availability && availability.text()) {
                 const stock = availability.text().match(/\d+/g).map(Number);
                 if (stock) {
-                    psProduct.availableStock = stock.toString();
+                    psProduct.availableStock = availability.text();
                 }
             }
             return psProduct;
@@ -178,9 +178,9 @@ const browserInstance = async (product, onlyPrice) => {
 }
 
 const extractProdInformation = async (products, job) => {
+    jobStatusUpadate(job, 0);
     async function fetcherLoop() {
         const noOfProducts = products.length;
-        jobStatusUpadate(job, 0);
         for (let index = 0; index < noOfProducts; index++) {
             try {
                 let insertResponse = await browserInstance(products[index]);
