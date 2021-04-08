@@ -27,7 +27,7 @@ const scrapper = async (job) => {
                 let count = 0;
                 for (let i = 1; i <= pageNo; i++) { // insert loop
                     if (i >= (from / prodsPerPage)) {
-                        const loopedData = await amazonScrapper(job.url, category.nId, subCategory.nId, subCategory1.nId, i);
+                        const loopedData = await amazonScrapper(job.url, category.nId, subCategory.nId, subCategory1.nId, i+1);
                         loopedData.list = loopedData.list.filter(l => l);
                         data = data.concat(loopedData.list);
                         count = count + loopedData.list.length;

@@ -80,14 +80,14 @@ processingTime = (ms) => {
 
 
 const runScrapper = async (sJob) => {
+    const { category, subCategory, subCategory1, scheduleId, _id } = sJob;
+    const startTime = new Date().getTime();
+    const status = 'Scheduled';
+    jobStatusUpadate({ _id, scheduleId, status, address }, 0);
     const config = await getConfig();
     sJob.config = config;
     const { host, active } = config;
     if (active && host) {
-        const startTime = new Date().getTime();
-        const { category, subCategory, subCategory1, scheduleId, _id } = sJob;
-        const status = 'Scheduled';
-        jobStatusUpadate({ _id, scheduleId, status, address }, 0);
         // console.log(`${sJob.runAt} - ${sJob.interval}`);
         console.log(`running a task --> ${sJob.interval}`);
         let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
@@ -179,13 +179,13 @@ const immediate = () => {
         let jobs = await axios.get(`${dbHost}job/all?interval=Now`).then(async (res) => {
             return res.data.data;
         });
-        const newJobs = jobs.filter(j => j.status === 'New');
-        const isRunningScheduled = jobs.find(j => (j.status === 'Running' || j.status === 'Scheduled') && j.server === address);
-        if (!isRunningScheduled && newJobs && newJobs.length) {
+        const newJob = jobs.find(j => j.status === 'New');
+        const isRunningScheduled = jobs.find(j => (j.status === 'Running' || j.status === 'Scheduled') && j.address === address);
+        if (!isRunningScheduled && newJob) {
             console.log(`Scheduler running from - ${jobStartedAt}`);
             console.log(`on Demand Schedule Initiated! - ${moment().format()}`);
             console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Instant Schedule Running!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-            scheduleJob(newJobs);
+            scheduleJob([newJob]);
         }
     });
 }

@@ -48,34 +48,44 @@ const processProd = (asin, html, category, subCategory) => {
         const deliveryDue = $('.a-row.a-size-base.a-color-secondary.s-align-children-center .a-text-bold').text();
         const deliveryBy = $('.a-row.a-size-base.a-color-secondary.s-align-children-center .a-row:last-child').text();
         const buybox_new_shipping_price = deliveryBy.split(' by ')[0];
+        let salePrice = $('#price_inside_buybox').text().substr(1);
+        if (!salePrice) {
+            salePrice = $('#priceblock_ourprice').text().substr(1)
+        }
+        let shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
+        if (!shipping) {
+            shipping = $('#ourprice_shippingmessage span.a-size-base.a-color-secondary').text();
+        }
+        let shippingValues = shipping ? shipping.match(/\d+/g).map(Number) : 0;
+        shippingPrice = shippingValues.toString().replace(',', '.');
         let listing_url = $('h2 a.a-link-normal').attr('href');
         const hrefsplit = listing_url ? listing_url.split('&url=') : null;
         if (hrefsplit && hrefsplit[1]) {
             listing_url = decodeURIComponent(hrefsplit[1]);
         }
-        if (buybox_new_landed_price && buybox_new_listing_price) {
-            product = {
-                asin,
-                initial_identifier,
-                primaryImage,
-                altImages,
-                isSponsored,
-                label,
-                prodMinDesc,
-                rating,
-                noOfRating,
-                buybox_new_landed_price,
-                buybox_new_listing_price,
-                buybox_new_shipping_price,
-                list_price_currency_code,
-                offerPercentage,
-                bankOffers,
-                deliveryDue,
-                category,
-                subCategory,
-                listing_url
-            };
-        }
+        product = {
+            asin,
+            initial_identifier,
+            primaryImage,
+            altImages,
+            isSponsored,
+            label,
+            prodMinDesc,
+            rating,
+            noOfRating,
+            buybox_new_landed_price,
+            buybox_new_listing_price,
+            buybox_new_shipping_price,
+            list_price_currency_code,
+            offerPercentage,
+            bankOffers,
+            deliveryDue,
+            category,
+            subCategory,
+            listing_url,
+            salePrice,
+            shippingPrice
+        };
     }
     return product;
 };
@@ -155,8 +165,15 @@ const browserInstance = async (product, onlyPrice) => {
             psProduct.color = productDetails.find("tr:contains('Colour') td:last-child").text();
             psProduct.features = productDetails.find("tr:contains('Special features') td:last-child").text();
             psProduct.model = productDetails.find("tr:contains('Item model number') td:last-child").text();
-            psProduct.salePrice = $('#price_inside_buybox').text().substr(1);
-            const shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
+            let salePrice = $('#price_inside_buybox').text().substr(1);
+            let shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
+            if (!salePrice) {
+                salePrice = $('#priceblock_ourprice').text().substr(1)
+            }
+            if (!shipping) {
+                shipping = $('#ourprice_shippingmessage span.a-size-base.a-color-secondary').text();
+            }
+            psProduct.salePrice = salePrice;
             const shippingValues = shipping ? shipping.match(/\d+/g).map(Number) : 0;
             psProduct.shippingPrice = shippingValues.toString().replace(',', '.');
             psProduct.item_dimensions_weight = productDetails.find("tr:contains('Item Weight') td:last-child").text();
@@ -194,7 +211,7 @@ const extractProdInformation = async (products, job) => {
                 const percentage = noOfProducts ? ((index + 1) / noOfProducts) * 100 : 0;
                 const statusUpdated = await jobStatusUpadate(job, percentage);
                 if (statusUpdated) {
-                    pushtoDB(prod, job);
+                    await pushtoDB(prod, job);
                 }
             } catch (err) {
                 job.status = 'STOPPED';
