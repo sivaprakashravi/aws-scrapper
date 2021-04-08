@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "axios": "^0.21.1",
+    "check-os": "^1.0.1",
     "cors": "^2.8.5",
     "fs-extra": "^9.1.0",
     "ip": "^1.1.5",
