@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin());
 const { jQ } = require('./../constants/defaults');
+const os = require('check-os');
 const args = [
     "--disable-gpu",
     "--disable-dev-shm-usage",
@@ -14,8 +15,10 @@ const args = [
     "--no-zygote",
     "--single-process",
 ];
-const executablePath = "./node_modules/puppeteer/.local-chromium/win64-848005/chrome-win/chrome.exe";
-// executablePath: "./node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux/chrome",
+let executablePath = "./node_modules/puppeteer/.local-chromium/win64-848005/chrome-win/chrome.exe";
+if(os.isLinux) {
+    executablePath = "./node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux/chrome";
+}
 const headless = true;
 let browserInstance;
 const browser = async () => {
