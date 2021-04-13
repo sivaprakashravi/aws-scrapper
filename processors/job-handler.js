@@ -8,7 +8,7 @@ const { watchProducts } = require('./request-handler');
 const ip = require("ip");
 const address = ip.address();
 const timeForAProduct = 8; // in sec [assumption on page processing time]
-const waitTimeForNextJob = 0; // in minutes
+let waitTimeForNextJob = 0; // in minutes
 const jobRunTypes = [
     {
         schedule: '0 1 * * *',
@@ -130,6 +130,7 @@ const scheduleJob = async (jobs) => {
                     const minutes = waitTimeForNextJob % 60;
                     sJob.runAt = `${minutes + 2} ${hour} * * *`;
                 }
+                waitTimeForNextJob = 0;
             }
             if (sJob.interval !== 'Now' && sJob.status === 'New') {
                 var jobSchedule = cron.schedule(sJob.runAt, async (e) => {
