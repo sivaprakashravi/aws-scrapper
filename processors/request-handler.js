@@ -18,7 +18,7 @@ global.document = document;
 const $ = jQuery = require('jquery')(window);
 const ip = require("ip");
 const address = ip.address();
-const processProd = (asin, html, category, subCategory) => {
+const processProd = (asin, html, category, subCategory, subCategory1) => {
     $('body').html(html);
     let product = null;
     if (asin) {
@@ -82,6 +82,7 @@ const processProd = (asin, html, category, subCategory) => {
             deliveryDue,
             category,
             subCategory,
+            subCategory1,
             listing_url,
             salePrice,
             shippingPrice
@@ -123,7 +124,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                 return pageScrapped;
             });
             const pdts = await prodHTML();
-            const parsed = pdts.p.map(p => processProd(p.asin, p.html, category, subCategory));
+            const parsed = pdts.p.map(p => processProd(p.asin, p.html, category, subCategory, subCategory1));
             // console.log('Parsing done');
             resolve({ pageNo: pdts.pageNo, list: parsed });
         } catch (e) {
