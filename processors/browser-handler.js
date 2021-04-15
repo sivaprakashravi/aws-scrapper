@@ -16,7 +16,7 @@ const args = [
     "--single-process",
 ];
 let executablePath = "./node_modules/puppeteer/.local-chromium/win64-848005/chrome-win/chrome.exe";
-if(os.isLinux) {
+if (os.isLinux) {
     executablePath = "./node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux/chrome";
 }
 const headless = true;
@@ -45,6 +45,23 @@ const page = async (url) => {
         // await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36');
         await newPage.goto(url, { waitUntil: 'networkidle0', timeout: 0 });
         await newPage.addScriptTag({ path: jQ });
+        // if (browserIsNew) {
+        //     const isCtrySelected = await newPage.evaluate(() => {
+        //         const countrySelected = $('#glow-ingress-line2').text();
+        //         return countrySelected === 'Indonesia';
+        //     });
+        //     if (!isCtrySelected) {
+        //         await pageLoaded.click('#nav-global-location-data-modal-action');
+        //         await pageLoaded.waitForSelector('#GLUXCountryList');
+        //         await pageLoaded.click('#GLUXCountryList');
+        //         await pageLoaded.waitForSelector('#GLUXCountryList');
+        //         await pageLoaded.click('#GLUXCountryList_107');
+        //         await pageLoaded.waitForSelector('.a-popover-footer span.a-button.a-button-primary');
+        //         await pageLoaded.click('.a-popover-footer span.a-button.a-button-primary');
+        //         pageLoaded.close();
+        //         pageLoaded = await page(url);
+        //     }
+        // }
         return newPage;
     } catch (error) {
         await newPage.close();
@@ -60,4 +77,6 @@ const html = async (pageLoaded, callback) => {
     });
 }
 
-module.exports = { browser, page, html };
+const browserIsOpen = () => browserInstance && browserInstance.isConnected();
+
+module.exports = { browser, page, html, browserIsOpen };

@@ -1,7 +1,7 @@
 const { host, login, dbHost, jQ } = require('./../constants/defaults');
 const { removeSplChar } = require('./../utils/formatter');
 const { prodDimensions, itemDimensions } = require('./../helpers/query-helper');
-const { browser, page, html } = require('./../processors/browser-handler');
+const { browser, page, html, browserIsOpen } = require('./../processors/browser-handler');
 const { fetchAll } = require('./../processors/categories-handler');
 const { jobStatusUpadate } = require('./../utils/handlers');
 const _ = require('lodash');
@@ -18,7 +18,7 @@ global.document = document;
 const $ = jQuery = require('jquery')(window);
 const ip = require("ip");
 const address = ip.address();
-const processProd = (asin, html, category, subCategory) => {
+const processProd = (asin, html, category, subCategory, subCategory1) => {
     $('body').html(html);
     let product = null;
     if (asin) {
@@ -82,6 +82,7 @@ const processProd = (asin, html, category, subCategory) => {
             deliveryDue,
             category,
             subCategory,
+            subCategory1,
             listing_url,
             salePrice,
             shippingPrice
@@ -97,10 +98,31 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                 url = `${url}&page=${pageNo}`;
             }
             const prodHTML = (async () => {
+                const isOpen = browserIsOpen();
                 let pageLoaded = await page(url);
                 if (!pageLoaded) {
                     await browser();
                     pageLoaded = await page(url);
+                }
+                if(!isOpen) {
+                    console.log('Browser is newly Opened.');
+                    console.log('Triggering Country Change Action.');
+                    const isCtrySelected = await pageLoaded.evaluate(() => {
+                        const countrySelected = $('#glow-ingress-line2').text();
+                        return countrySelected === 'Indonesia';
+                    });
+                    if(!isCtrySelected) {
+                        console.log('Indonesia is not set as default. Falling back!');
+                        await pageLoaded.click('#nav-global-location-data-modal-action');
+                        await pageLoaded.waitForSelector('#GLUXCountryList');
+                        await pageLoaded.click('#GLUXCountryList');
+                        await pageLoaded.waitForSelector('#GLUXCountryList');
+                        await pageLoaded.click('#GLUXCountryList_107');
+                        await pageLoaded.waitForSelector('.a-popover-footer span.a-button.a-button-primary');
+                        await pageLoaded.click('.a-popover-footer span.a-button.a-button-primary');
+                        pageLoaded.close();
+                        pageLoaded = await page(url);
+                    }
                 }
                 const pageScrapped = await pageLoaded.evaluate(() => {
                     let asinId = [];
@@ -123,7 +145,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                 return pageScrapped;
             });
             const pdts = await prodHTML();
-            const parsed = pdts.p.map(p => processProd(p.asin, p.html, category, subCategory));
+            const parsed = pdts.p.map(p => processProd(p.asin, p.html, category, subCategory, subCategory1));
             // console.log('Parsing done');
             resolve({ pageNo: pdts.pageNo, list: parsed });
         } catch (e) {
