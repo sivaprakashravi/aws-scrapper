@@ -116,7 +116,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                         await pageLoaded.click('#nav-global-location-data-modal-action');
                         await pageLoaded.waitForSelector('#GLUXCountryList');
                         await pageLoaded.click('#GLUXCountryList');
-                        await pageLoaded.waitForSelector('#GLUXCountryList');
+                        await pageLoaded.waitForSelector('#GLUXCountryList_107');
                         await pageLoaded.click('#GLUXCountryList_107');
                         await pageLoaded.waitForSelector('.a-popover-footer span.a-button.a-button-primary');
                         await pageLoaded.click('.a-popover-footer span.a-button.a-button-primary');
@@ -149,6 +149,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
             // console.log('Parsing done');
             resolve({ pageNo: pdts.pageNo, list: parsed });
         } catch (e) {
+            console.log(e);
             reject(e);
         }
     }).then((d) => d).catch(e => e);

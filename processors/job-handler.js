@@ -124,7 +124,7 @@ const scheduleJob = async (jobs) => {
             if (sJob.interval === 'Everyday') {
                 sJob.to = sJob.to ? Number(sJob.to) : 1000;
                 sJob.from = sJob.from ? Number(sJob.from) : 0;
-                waitTimeForNextJob = + (sJob.to - sJob.from * timeForAProduct) / 60;
+                waitTimeForNextJob = (sJob.to - sJob.from * timeForAProduct) / 60;
                 if (index) {
                     const hour = Math.floor(waitTimeForNextJob / 60);
                     const minutes = waitTimeForNextJob % 60;
