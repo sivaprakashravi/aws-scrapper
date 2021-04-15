@@ -22,7 +22,8 @@ const fetchMainCategory = (async () => {
                         value: $(option).val(),
                         treeIndex: 0,
                         createdDate: new Date().getTime(),
-                        createdBy: 'DEVELOPER'
+                        createdBy: 'DEVELOPER',
+                        id: i+1
                     });
                 }
             });
@@ -65,7 +66,8 @@ categoryInstance = (async (category) => {
                     name,
                     nId: nIds[1] ? nIds[1] : nIds[0],
                     treeIndex: 1,
-                    rnid
+                    rnid,
+                    id: i+1
                 });
             });
             return { catId, levelOne, mainCategories };
@@ -110,7 +112,7 @@ categoryLevelInstance = (async (params, level) => {
         });
         pageLoaded.close();
         const scrap = [];
-        pageScrapped.forEach(({ href, name }) => {
+        pageScrapped.forEach(({ href, name }, i) => {
             // const urlParams = new URLSearchParams(href);
             let rh = queryParams(href, 'rh');
             let node = queryParams(href, 'node');
@@ -120,14 +122,16 @@ categoryLevelInstance = (async (params, level) => {
                 scrap.push({
                     name,
                     nId: nIds[level + 1] ? nIds[level + 1] : nIds[level],
-                    treeIndex: 2
+                    treeIndex: 2,
+                    id: i+1
                 });
             } else if (node) {
                 scrap.push({
                     name,
                     node,
                     treeIndex: 2,
-                    endOfTree: true
+                    endOfTree: true,
+                    id: i+1
                 });
             }
         });
