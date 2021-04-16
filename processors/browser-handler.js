@@ -17,7 +17,8 @@ const args = [
 ];
 let executablePath = "./node_modules/puppeteer/.local-chromium/win64-848005/chrome-win/chrome.exe";
 if (os.isLinux) {
-    executablePath = "./node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux/chrome";
+    // executablePath = "./node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux/chrome";
+    executablePath = "/usr/bin/chromium-browser";
 }
 const headless = true;
 let browserInstance;
