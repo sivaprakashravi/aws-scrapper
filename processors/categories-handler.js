@@ -192,6 +192,22 @@ categoriesLevelTwo = (async (categoriesList) => {
                                         console.log(`L3 Instance Fetched`);
                                         if (levelTwo3 && levelTwo3.length) {
                                             l3.subCategory = levelTwo3;
+                                            // l4
+                                            async function fetcherLoopDInstance3() {
+                                                for (let index3 = 0; index3 < levelTwo3.length; index3++) {
+                                                    const l4 = levelTwo3[index3];
+                                                    if (l4 && (l4.nId || l4.node)) {
+                                                        const l4nId = l4.nId ? l4.nId : l4.node;
+                                                        const params2 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId},n:${l3nId},n:${l4nId}`;
+                                                        let levelTwo4 = await categoryLevelInstance(params2, 3);
+                                                        console.log(`L4 Instance Fetched`);
+                                                        if (levelTwo4 && levelTwo4.length) {
+                                                            l4.subCategory = levelTwo4;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            await fetcherLoopDInstance3();
                                         }
                                     }
                                 }
@@ -235,6 +251,7 @@ const categories = async () => {
         if (!testCategories) {
             return axios.post(`${dbHost}category/add`, d).then(async (res) => {
                 console.log('Main Categories [L1] Pushed to Collection');
+
                 const l2 = await categoriesLevelTwo(res.data.data);
                 l2.forEach((l, i) => {
                     return axios.post(`${dbHost}category/add`, [l]).then(async (res) => {
