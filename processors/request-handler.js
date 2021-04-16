@@ -104,18 +104,20 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                     await browser();
                     pageLoaded = await page(url);
                 }
-                if(!isOpen) {
+                if (!isOpen) {
                     console.log('Browser is newly Opened.');
                     console.log('Triggering Country Change Action.');
                     const isCtrySelected = await pageLoaded.evaluate(() => {
                         const countrySelected = $('#glow-ingress-line2').text();
                         return countrySelected === 'Indonesia';
                     });
-                    if(!isCtrySelected) {
+                    if (!isCtrySelected) {
                         console.log('Indonesia is not set as default. Falling back!');
                         await pageLoaded.click('#nav-global-location-data-modal-action');
                         await pageLoaded.waitForSelector('#GLUXCountryList');
+                        await pageLoaded.waitForTimeout(500);
                         await pageLoaded.click('#GLUXCountryList');
+                        await pageLoaded.waitForTimeout(500);
                         await pageLoaded.waitForSelector('#GLUXCountryList_107');
                         await pageLoaded.click('#GLUXCountryList_107');
                         await pageLoaded.waitForSelector('.a-popover-footer span.a-button.a-button-primary');
