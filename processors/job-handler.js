@@ -80,7 +80,7 @@ processingTime = (ms) => {
 
 
 const runScrapper = async (sJob) => {
-    const { category, subCategory, subCategory1, scheduleId, _id } = sJob;
+    const { category, subCategory, scheduleId, _id } = sJob;
     const startTime = new Date().getTime();
     const status = 'Scheduled';
     jobStatusUpadate({ _id, scheduleId, status, address }, 0);
@@ -91,12 +91,17 @@ const runScrapper = async (sJob) => {
         // console.log(`${sJob.runAt} - ${sJob.interval}`);
         console.log(`running a task --> ${sJob.interval}`);
         let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
-        if (subCategory1 && !subCategory1.node) {
-            url = `${url},n:${subCategory1.nId}`;
-        }
-        if (subCategory1 && subCategory1.node) {
-            url = `${host}/s?node=${subCategory1.node}`;
-        }
+        const catLoop = [1, 2, 3];
+        catLoop.forEach(c => {
+            const cat = sJob[`subCategory${c}`];
+            if (cat && !cat.node) {
+                url = `${url},n:${cat.nId}`;
+            }
+            if (cat && cat.node) {
+                url = `${host}/s?node=${cat.node}`;
+                return;
+            }
+        })
         url = `${url}&ref=lp_${category.nId}_sar&fs=true`;
         sJob.url = url;
         const jobDone = await scrapper(sJob);

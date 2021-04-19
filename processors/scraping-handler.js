@@ -4,10 +4,12 @@ const { amazonScrapper, extractProdInformation } = require('./request-handler');
 const { jobLog } = require('./../utils/handlers');
 const _ = require('lodash');
 const scrapper = async (job) => {
-    let { category, subCategory, subCategory1 } = job;
+    let { category, subCategory, subCategory1, subCategory2, subCategory3 } = job;
     console.log(`Scrap URL: ${job.url}`);
-    subCategory1 = subCategory1.nId ? subCategory1.nId : subCategory1.node;
-    const { pageNo, list } = await amazonScrapper(job.url, category.nId, subCategory.nId, subCategory1);
+    subCategory1 = subCategory1 ? subCategory1.nId ? subCategory1.nId : subCategory1.node : null;
+    subCategory2 = subCategory2 ? subCategory2.nId ? subCategory2.nId : subCategory2.node : null;
+    subCategory3 = subCategory3 ? subCategory3.nId ? subCategory3.nId : subCategory3.node : null;
+    const { pageNo, list } = await amazonScrapper(job.url, category.nId, subCategory.nId, subCategory1, subCategory2, subCategory3);
     // count = + list.length;
     const prodsPerPage = list.length;
     let { from, to } = job;
@@ -28,7 +30,7 @@ const scrapper = async (job) => {
                 let count = 0;
                 for (let i = 1; i <= pageNo; i++) { // insert loop
                     if (i >= (from / prodsPerPage)) {
-                        const loopedData = await amazonScrapper(job.url, category.nId, subCategory.nId, subCategory1, i+1);
+                        const loopedData = await amazonScrapper(job.url, category.nId, subCategory.nId, subCategory1, subCategory2, subCategory3, i+1);
                         loopedData.list = loopedData.list.filter(l => l);
                         data = data.concat(loopedData.list);
                         count = count + loopedData.list.length;

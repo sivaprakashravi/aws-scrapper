@@ -18,7 +18,7 @@ global.document = document;
 const $ = jQuery = require('jquery')(window);
 const ip = require("ip");
 const address = ip.address();
-const processProd = (asin, html, category, subCategory, subCategory1) => {
+const processProd = (asin, html, category, subCategory, subCategory1, subCategory2, subCategory3) => {
     $('body').html(html);
     let product = null;
     if (asin) {
@@ -83,6 +83,8 @@ const processProd = (asin, html, category, subCategory, subCategory1) => {
             category,
             subCategory,
             subCategory1,
+            subCategory2,
+            subCategory3,
             listing_url,
             salePrice,
             shippingPrice
@@ -91,7 +93,7 @@ const processProd = (asin, html, category, subCategory, subCategory1) => {
     return product;
 };
 
-const amazonScrapper = async function (url, category, subCategory, subCategory1, pageNo) {
+const amazonScrapper = async function (url, category, subCategory, subCategory1, subCategory2, subCategory3, pageNo) {
     return await new Promise(async (resolve, reject) => {
         try {
             if (pageNo) {
@@ -147,7 +149,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                 return pageScrapped;
             });
             const pdts = await prodHTML();
-            const parsed = pdts.p.map(p => processProd(p.asin, p.html, category, subCategory, subCategory1));
+            const parsed = pdts.p.map(p => processProd(p.asin, p.html, category, subCategory, subCategory1, subCategory2, subCategory3));
             // console.log('Parsing done');
             resolve({ pageNo: pdts.pageNo, list: parsed });
         } catch (e) {
