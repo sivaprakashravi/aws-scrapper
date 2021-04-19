@@ -114,11 +114,17 @@ categoryLevelInstance = (async (params, level) => {
         const scrap = [];
         pageScrapped.forEach(({ href, name }, i) => {
             // const urlParams = new URLSearchParams(href);
+            let bbn = queryParams(href, 'bbn');
             let rh = queryParams(href, 'rh');
+            let rnid = queryParams(href, 'rnid');
             let node = queryParams(href, 'node');
+
             if (rh) {
                 let nIds = rh.split(',');
                 nIds = nIds.map(n => n.split(":").pop());
+                if (nIds && nIds[0] && nIds[0] !== bbn) {
+                    nIds.unshift(bbn);
+                }
                 scrap.push({
                     name,
                     nId: nIds[level + 1] ? nIds[level + 1] : nIds[level],
@@ -170,7 +176,7 @@ categoriesLevelTwo = (async (categoriesList) => {
     async function fetcherLoop() {
         const noOfProducts = categoriesList.length;
         for (let index = 0; index < noOfProducts; index++) {
-            const { subCategory, nId } = categoriesList[index];
+            const { subCategory, nId, id } = categoriesList[index];
             async function fetcherLoopDInstance() {
                 if (subCategory && subCategory.length) {
                     const noOfProducts2 = subCategory.length;
@@ -189,7 +195,7 @@ categoriesLevelTwo = (async (categoriesList) => {
                                         const l3nId = l3.nId ? l3.nId : l3.node;
                                         const params2 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId},n:${l3nId}`;
                                         let levelTwo3 = await categoryLevelInstance(params2, 3);
-                                        console.log(`${index + 1} - ${index2 + 1} - ${index3 +1} L3 Instance Fetched LL:${levelTwo3.length}`);
+                                        console.log(`${index + 1} - ${index2 + 1} - ${index3 + 1} L3 Instance Fetched LL:${levelTwo3.length}`);
                                         if (levelTwo3 && levelTwo3.length) {
                                             l3.subCategory = levelTwo3;
                                             // l4
@@ -200,7 +206,7 @@ categoriesLevelTwo = (async (categoriesList) => {
                                                         const l4nId = l4.nId ? l4.nId : l4.node;
                                                         const params2 = `bbn=${nId}&rh=n:${nId},n:${sCategory.nId},n:${l3nId},n:${l4nId}`;
                                                         let levelTwo4 = await categoryLevelInstance(params2, 4);
-                                                        console.log(`${index + 1} - ${index2 + 1} - ${index3 +1} - ${index4 +1} L4 Instance Fetched LL:${levelTwo4.length}`);
+                                                        console.log(`${index + 1} - ${index2 + 1} - ${index3 + 1} - ${index4 + 1} L4 Instance Fetched LL:${levelTwo4.length}`);
                                                         if (levelTwo4 && levelTwo4.length) {
                                                             l4.subCategory = levelTwo4;
                                                         }
@@ -223,7 +229,7 @@ categoriesLevelTwo = (async (categoriesList) => {
     await fetcherLoop();
     return categoriesList;
 });
-const testCategories = false;
+const testCategories = true;
 const categories = async () => {
     return new Promise(async (resolve, reject) => {
         try {
