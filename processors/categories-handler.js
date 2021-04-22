@@ -229,7 +229,7 @@ categoriesLevelTwo = (async (categoriesList) => {
     await fetcherLoop();
     return categoriesList;
 });
-const testCategories = true;
+const testCategories = false;
 const categories = async () => {
     return new Promise(async (resolve, reject) => {
         try {

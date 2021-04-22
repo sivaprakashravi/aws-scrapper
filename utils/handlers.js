@@ -25,8 +25,8 @@ const queryParams = (url, query) => {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 };
 
-const jobStatusUpadate = async ({ _id, scheduleId, status, address }, percentage) => {
-    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}&address=${address}`).then(async (res) => {
+const jobStatusUpadate = async ({ _id, scheduleId, status, address, message }, percentage) => {
+    return axios.get(`${dbHost}job/status/${_id}/${scheduleId}?percentage=${percentage}&status=${status}&address=${address}&message=${message}`).then(async (res) => {
         return res.data.data;
     });
 };
@@ -37,7 +37,7 @@ const stopJob = async ({ _id, scheduleId }) => {
     });
 };
 
-const jobLog = async (log, status) => {
+const jobLog = async ({_id, scheduleId}, status) => {
     return axios.get(`${dbHost}job/log/${_id}/${scheduleId}?log=${log}&status=${status}`).then(async (res) => {
         return res.data.data;
     });

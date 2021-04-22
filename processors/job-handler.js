@@ -105,13 +105,17 @@ const runScrapper = async (sJob) => {
         url = `${url}&ref=lp_${category.nId}_sar&fs=true`;
         sJob.url = url;
         const jobDone = await scrapper(sJob);
-        if (sJob.interval === 'Now' && !sJob.recursive) {
-            await stopJob(sJob);
+        if(jobDone === 'Error') {
+            console.log(`suspending task --> ${sJob.scheduleId}`);
+        } else {
+            if (sJob.interval === 'Now' && !sJob.recursive) {
+                await stopJob(sJob);
+            }
+            const endTime = new Date().getTime();
+            const computedTime = endTime - startTime;
+            const time = processingTime(computedTime);
+            console.log(`${time} <-- Time took to Completed task --> ${sJob.scheduleId}`);
         }
-        const endTime = new Date().getTime();
-        const computedTime = endTime - startTime;
-        const time = processingTime(computedTime);
-        console.log(`${time} <-- Time took to Completed task --> ${sJob.scheduleId}`);
         return jobDone;
     } else {
         console.log(`suspending task --> ${sJob.scheduleId}`);
