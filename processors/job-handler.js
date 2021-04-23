@@ -82,12 +82,12 @@ processingTime = (ms) => {
 const runScrapper = async (sJob) => {
     const { category, subCategory, scheduleId, _id } = sJob;
     const startTime = new Date().getTime();
-    const status = 'Scheduled';
-    jobStatusUpadate({ _id, scheduleId, status, address }, 0);
     const config = await getConfig();
     sJob.config = config;
     const { host, active } = config;
     if (active && host) {
+        const status = 'Scheduled';
+        jobStatusUpadate({ _id, scheduleId, status, address }, 0);
         // console.log(`${sJob.runAt} - ${sJob.interval}`);
         console.log(`running a task --> ${sJob.interval}`);
         let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;

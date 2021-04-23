@@ -109,12 +109,13 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                 }
                 if (!isOpen) {
                     console.log('Browser is newly Opened.');
-                    console.log('Triggering Country Change Action.');
+                    console.log('Checking default country selected!!.');
                     const isCtrySelected = await pageLoaded.evaluate(() => {
                         const countrySelected = $('#glow-ingress-line2').text();
                         return countrySelected === 'Indonesia';
                     });
                     if (!isCtrySelected) {
+                        console.log('Triggering Country Change Action.');
                         console.log('Indonesia is not set as default. Falling back!');
                         await pageLoaded.click('#nav-global-location-data-modal-action');
                         await pageLoaded.waitForSelector('#GLUXCountryList');
