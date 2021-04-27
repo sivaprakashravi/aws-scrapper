@@ -169,6 +169,12 @@ const browserInstance = async (product, onlyPrice) => {
             const filename = (path) => {
                 path = path.substring(path.lastIndexOf("/") + 1);
                 return (path.match(/[^.]+(\.[^?#]+)?/) || [])[0];
+            };
+            const jSpot = (id, text) => {
+                var jss = id.find(":contains(" + text + ")")
+                    .filter(function () { return $(this).children().length === 0; });
+
+                return jss;
             }
             $('body').html($('body').html().replace(/(\r\n|\n|\r)/gm, ''));
             const psProduct = {};
@@ -205,7 +211,38 @@ const browserInstance = async (product, onlyPrice) => {
             psProduct.salePrice = salePrice;
             const shippingValues = shipping ? shipping.match(/\d+/g).map(Number) : 0;
             psProduct.shippingPrice = shippingValues.toString().replace(',', '.');
-            psProduct.item_dimensions_weight = productDetails.find("tr:contains('Item Weight') td:last-child").text();
+            psProduct.table = jSpot(productDetails.find("table"), 'Item Weight');
+            let ounces = jSpot($('#prodDetails'),'ounces').html();
+            ounces = ounces ? ounces : jSpot($('#prodDetails'),'Ounces').html();
+            let pounds = jSpot($('#prodDetails'),'pounds').html();
+            pounds = pounds ? pounds : jSpot($('#prodDetails'),'Pounds').html();
+            if(!ounces) {
+                ounces = jSpot($('#detailBulletsWrapper_feature_div'),'Ounces').html();
+            }
+            if(!pounds) {
+                pounds = jSpot($('#detailBulletsWrapper_feature_div'),'Pounds').html();
+            }
+            if (ounces) {
+                const split = ounces.split(';');
+                if (split && split.length) {
+                    if (split && split.length > 1) {
+                        psProduct.item_dimensions_weight = split[1];
+                    } else {
+                        psProduct.item_dimensions_weight = split[0];
+                    }
+                }
+            }
+            if (pounds) {
+                const split = pounds.split(';');
+                if (split && split.length) {
+                    if (split && split.length > 1) {
+                        psProduct.item_dimensions_weight = split[1];
+                    } else {
+                        psProduct.item_dimensions_weight = split[0];
+                    }
+                }
+            }
+            psProduct.item_dimensions_weight = $.trim(psProduct.item_dimensions_weight);
             const availability = productDetails.find('#availability');
             psProduct.availableStock = null;
             if (availability && availability.text()) {
@@ -239,7 +276,14 @@ const extractProdInformation = async (products, job) => {
                 job.status = 'Running';
                 const percentage = noOfProducts ? ((index + 1) / noOfProducts) * 100 : 0;
                 const statusUpdated = await jobStatusUpadate(job, percentage);
-                if (statusUpdated) {
+                if (statusUpdated) {  
+                    prod.warning = {};                  
+                    if(!prod.item_dimensions_weight) {
+                        prod.warning.weight = 'Product weight is not available.\nPrice calculation maybe Affected.';
+                    }
+                    if(prod.label.length > 70) {
+                        prod.warning.label = 'Product label is morethan 70 characters.';
+                    }
                     await pushtoDB(prod, job);
                 }
             } catch (err) {
