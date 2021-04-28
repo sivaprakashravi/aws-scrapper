@@ -112,20 +112,23 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
                     console.log('Checking default country selected!!.');
                     const isCtrySelected = await pageLoaded.evaluate(() => {
                         const countrySelected = $('#glow-ingress-line2').text();
-                        return countrySelected === 'Indonesia';
+                        return countrySelected.indexOf('Glendale') > -1;
                     });
                     if (!isCtrySelected) {
+                        console.log('US is not set as default. Falling back!');
                         console.log('Triggering Country Change Action.');
-                        console.log('Indonesia is not set as default. Falling back!');
                         await pageLoaded.click('#nav-global-location-data-modal-action');
-                        await pageLoaded.waitForSelector('#GLUXCountryList');
+                        await pageLoaded.waitForSelector('#GLUXZipUpdateInput');
                         await pageLoaded.waitForTimeout(500);
-                        await pageLoaded.click('#GLUXCountryList');
+                        await pageLoaded.$eval('input[id="GLUXZipUpdateInput"]', el => el.value = '91210');
+                        // await pageLoaded.click('#GLUXCountryList');
                         await pageLoaded.waitForTimeout(500);
-                        await pageLoaded.waitForSelector('#GLUXCountryList_107');
-                        await pageLoaded.click('#GLUXCountryList_107');
-                        await pageLoaded.waitForSelector('.a-popover-footer span.a-button.a-button-primary');
-                        await pageLoaded.click('.a-popover-footer span.a-button.a-button-primary');
+                        await pageLoaded.waitForSelector('#GLUXZipUpdate-announce');
+                        await pageLoaded.click('#GLUXZipUpdate-announce');
+                        // await pageLoaded.waitForSelector('#GLUXCountryList_107');
+                        // await pageLoaded.click('#GLUXCountryList_107');
+                        // await pageLoaded.waitForSelector('.a-popover-footer span.a-button.a-button-primary');
+                        // await pageLoaded.click('.a-popover-footer span.a-button.a-button-primary');
                         pageLoaded.close();
                         pageLoaded = await page(url);
                     }

@@ -78,48 +78,64 @@ processingTime = (ms) => {
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
+const getJob = async (scheduleId) => { 
+    if(scheduleId) { 
+        let jobs = await axios.get(`${dbHost}job/all`, {scheduleId}).then(async (res) => {
+            return res.data.data;
+        });
+        return jobs;
+    }  
+}
+
 
 const runScrapper = async (sJob) => {
-    const { category, subCategory, scheduleId, _id } = sJob;
-    const startTime = new Date().getTime();
-    const config = await getConfig();
-    sJob.config = config;
-    const { host, active } = config;
-    if (active && host) {
-        const status = 'Scheduled';
-        jobStatusUpadate({ _id, scheduleId, status, address }, 0);
-        // console.log(`${sJob.runAt} - ${sJob.interval}`);
-        console.log(`running a task --> ${sJob.interval}`);
-        let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
-        const catLoop = [1, 2, 3];
-        catLoop.forEach(c => {
-            const cat = sJob[`subCategory${c}`];
-            if (cat && !cat.node) {
-                url = `${url},n:${cat.nId}`;
+    const job = await getJob(sJob.scheduleId);
+    if(job && job[0]) {
+        const { category, subCategory, scheduleId, _id, prime } = job[0];
+        const startTime = new Date().getTime();
+        const config = await getConfig();
+        sJob.config = config;
+        const { host, active } = config;
+        if (active && host) {
+            const status = 'Scheduled';
+            jobStatusUpadate({ _id, scheduleId, status, address }, 0);
+            // console.log(`${sJob.runAt} - ${sJob.interval}`);
+            console.log(`running a task --> ${sJob.interval}`);
+            let url = `${host}/s?bbn=${category.nId}&rh=n:${category.nId},n:${subCategory.nId}`;
+            const catLoop = [1, 2, 3];
+            catLoop.forEach(c => {
+                const cat = sJob[`subCategory${c}`];
+                if (cat && !cat.node) {
+                    url = `${url},n:${cat.nId}`;
+                }
+                if (cat && cat.node) {
+                    url = `${host}/s?node=${cat.node}`;
+                    return;
+                }
+            });
+            if (prime) {
+                url = `${url}&ref=lp_${category.nId}_nr_p_85_1&fs=true`;
+            } else {
+                url = `${url}&ref=lp_${category.nId}_sar&fs=true`;
             }
-            if (cat && cat.node) {
-                url = `${host}/s?node=${cat.node}`;
-                return;
+            sJob.url = url;
+            const jobDone = await scrapper(sJob);
+            if (jobDone === 'Error') {
+                console.log(`suspending task --> ${sJob.scheduleId}`);
+            } else {
+                if (sJob.interval === 'Now' && !sJob.recursive) {
+                    await stopJob(sJob);
+                }
+                const endTime = new Date().getTime();
+                const computedTime = endTime - startTime;
+                const time = processingTime(computedTime);
+                console.log(`${time} <-- Time took to Completed task --> ${sJob.scheduleId}`);
             }
-        })
-        url = `${url}&ref=lp_${category.nId}_sar&fs=true`;
-        sJob.url = url;
-        const jobDone = await scrapper(sJob);
-        if(jobDone === 'Error') {
-            console.log(`suspending task --> ${sJob.scheduleId}`);
+            return jobDone;
         } else {
-            if (sJob.interval === 'Now' && !sJob.recursive) {
-                await stopJob(sJob);
-            }
-            const endTime = new Date().getTime();
-            const computedTime = endTime - startTime;
-            const time = processingTime(computedTime);
-            console.log(`${time} <-- Time took to Completed task --> ${sJob.scheduleId}`);
+            console.log(`suspending task --> ${sJob.scheduleId}`);
+            // return;
         }
-        return jobDone;
-    } else {
-        console.log(`suspending task --> ${sJob.scheduleId}`);
-        // return;
     }
 
 }
