@@ -268,6 +268,7 @@ const browserInstance = async (product, onlyPrice) => {
 }
 
 const extractProdInformation = async (products, job) => {
+    job.status = 'Running';
     jobStatusUpadate(job, 0);
     job.address = address;
     async function fetcherLoop() {

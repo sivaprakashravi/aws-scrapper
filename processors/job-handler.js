@@ -80,7 +80,7 @@ processingTime = (ms) => {
 
 const getJob = async (scheduleId) => { 
     if(scheduleId) { 
-        let jobs = await axios.get(`${dbHost}job/all`, {scheduleId}).then(async (res) => {
+        let jobs = await axios.get(`${dbHost}job/all?scheduleId=${scheduleId}`).then(async (res) => {
             return res.data.data;
         });
         return jobs;
@@ -96,7 +96,7 @@ const runScrapper = async (sJob) => {
         const config = await getConfig();
         sJob.config = config;
         const { host, active } = config;
-        if (active && host) {
+        if (active && host && job[0].status === 'New') {
             const status = 'Scheduled';
             jobStatusUpadate({ _id, scheduleId, status, address }, 0);
             // console.log(`${sJob.runAt} - ${sJob.interval}`);
@@ -142,7 +142,7 @@ const runScrapper = async (sJob) => {
 
 const scheduleJob = async (jobs) => {
     async function jobLoop() {
-        console.log('Looping Through scheduled Jobs.')
+        console.log('Looping Through scheduled Jobs.');
         const noOfjobs = jobs.length;
         for (let index = 0; index < noOfjobs; index++) {
             const sJob = jobs[index];
