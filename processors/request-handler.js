@@ -48,9 +48,12 @@ const processProd = (asin, html, category, subCategory, subCategory1, subCategor
         const deliveryDue = $('.a-row.a-size-base.a-color-secondary.s-align-children-center .a-text-bold').text();
         const deliveryBy = $('.a-row.a-size-base.a-color-secondary.s-align-children-center .a-row:last-child').text();
         const buybox_new_shipping_price = deliveryBy.split(' by ')[0];
-        let salePrice = $('#price_inside_buybox').text().substr(1);
+        let salePrice = $('#priceblock_ourprice').text().substr(1);
         if (!salePrice) {
-            salePrice = $('#priceblock_ourprice').text().substr(1)
+            salePrice = $('#price_inside_buybox').text().substr(1);
+        }
+        if(!salePrice) {
+            salePrice = $('#twister-plus-price-data-price').val();
         }
         let shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
         if (!shipping) {
@@ -88,7 +91,8 @@ const processProd = (asin, html, category, subCategory, subCategory1, subCategor
             listing_url,
             salePrice,
             shippingPrice,
-            localed: false
+            localed: false,
+            html
         };
     }
     return product;
@@ -165,7 +169,7 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
 }
 
 const browserInstance = async (product, onlyPrice) => {
-    if (product && product.listing_url) {
+    if (product && product.listing_url && product.asin) {
         const url = `${host}${product.listing_url}`;
         const pageLoaded = await page(url);
         const pageScrapped = await pageLoaded.evaluate(() => {
@@ -203,10 +207,13 @@ const browserInstance = async (product, onlyPrice) => {
             psProduct.color = productDetails.find("tr:contains('Colour') td:last-child").text();
             psProduct.features = productDetails.find("tr:contains('Special features') td:last-child").text();
             psProduct.model = productDetails.find("tr:contains('Item model number') td:last-child").text();
-            let salePrice = $('#price_inside_buybox').text().substr(1);
+            let salePrice = $('#priceblock_ourprice').text().substr(1);
             let shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
             if (!salePrice) {
-                salePrice = $('#priceblock_ourprice').text().substr(1)
+                salePrice = $('#price_inside_buybox').text().substr(1);
+            }
+            if(!salePrice) {
+                salePrice = $('#twister-plus-price-data-price').val();
             }
             if (!shipping) {
                 shipping = $('#ourprice_shippingmessage span.a-size-base.a-color-secondary').text();
@@ -214,7 +221,7 @@ const browserInstance = async (product, onlyPrice) => {
             psProduct.salePrice = salePrice;
             const shippingValues = shipping ? shipping.match(/\d+/g).map(Number) : 0;
             psProduct.shippingPrice = shippingValues.toString().replace(',', '.');
-            psProduct.table = jSpot(productDetails.find("table"), 'Item Weight');
+            // psProduct.table = jSpot(productDetails.find("table"), 'Item Weight');
             let ounces = jSpot($('#prodDetails'),'ounces').html();
             ounces = ounces ? ounces : jSpot($('#prodDetails'),'Ounces').html();
             let pounds = jSpot($('#prodDetails'),'pounds').html();

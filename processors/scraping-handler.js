@@ -19,22 +19,24 @@ const scrapper = async (job) => {
     from = from ? Number(from) : 0;
     to = to ? Number(to) : 100;
     let threshold = (to - from);
-    if (threshold > (pageNo * prodsPerPage)) {
-        const message = `Scrap range[${threshold}] is Higher than available products ${pageNo * prodsPerPage}.\nJob Stopped`;
+    const pref = Math.ceil(from / prodsPerPage);
+    const actualPNo = Number(pageNo) - pref;
+    if (threshold > (actualPNo * prodsPerPage)) {
+        const message = `Scrap range[${threshold}] is Higher than available products ${actualPNo * prodsPerPage}.\nJob Stopped`;
         console.log(message);
         from = 0;
-        threshold = pageNo * prodsPerPage;
+        threshold = actualPNo * prodsPerPage;
         job.message = message;
         job.status = 'Error';
         jobStatusUpadate(job, 0);
         return 'Error';
-    } else if (pageNo && pageNo > 1) {
+    } else if (actualPNo && actualPNo > 1) {
         return new Promise(async (resolve, reject) => {
             try {
                 if (list.length < threshold) {
                     let data = [];
                     let count = 0;
-                    for (let i = 1; i <= pageNo; i++) {
+                    for (let i = 1; i <= actualPNo; i++) {
                         if (i >= (from / prodsPerPage)) {
                             const loopedData = await amazonScrapper(job.url, category.nId, subCategory.nId, subCategory1, subCategory2, subCategory3, i + 1);
                             loopedData.list = loopedData.list.filter(l => l);
@@ -45,7 +47,7 @@ const scrapper = async (job) => {
                                 return;
                             }
                         }
-                        if (i === pageNo) {
+                        if (i === actualPNo) {
                             resolve(data);
                             return;
                         }

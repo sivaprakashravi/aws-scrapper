@@ -39,6 +39,10 @@ const browser = async () => {
 const page = async (url) => {
     const b = await browser();
     // console.log(`Browser Page Opened!`);
+    let pages = await b.pages();
+    await pages.forEach(async p => {
+        p.close();
+    });
     const newPage = await b.newPage();
     // newPage.timeOn = new Date().getTime();
     try {

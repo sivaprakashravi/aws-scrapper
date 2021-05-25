@@ -136,6 +136,8 @@ const runScrapper = async (sJob) => {
             console.log(`suspending task --> ${sJob.scheduleId}`);
             // return;
         }
+    } else {
+        console.log('No Scheduled Jobs.')
     }
 
 }
