@@ -91,8 +91,7 @@ const processProd = (asin, html, category, subCategory, subCategory1, subCategor
             listing_url,
             salePrice,
             shippingPrice,
-            localed: false,
-            html
+            localed: false
         };
     }
     return product;
