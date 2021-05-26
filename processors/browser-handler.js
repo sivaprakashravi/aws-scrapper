@@ -44,6 +44,16 @@ const page = async (url) => {
         p.close();
     });
     const newPage = await b.newPage();
+    await newPage.setViewport({ width: 1920, height: 1080 });
+    await newPage.setRequestInterception(true);
+    newPage.on('request', (req) => {
+        if (req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image') {
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
     // newPage.timeOn = new Date().getTime();
     try {
         // await page.setViewport({ width: 1366, height: 768 });

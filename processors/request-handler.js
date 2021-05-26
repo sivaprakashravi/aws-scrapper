@@ -172,6 +172,9 @@ const browserInstance = async (product, onlyPrice) => {
     if (product && product.listing_url && product.asin) {
         const url = `${host}${product.listing_url}`;
         const pageLoaded = await page(url);
+        await pageLoaded.waitForSelector('#detailBullets_feature_div');
+        await pageLoaded.waitForSelector('#price');
+        await pageLoaded.waitForTimeout(500);
         const pageScrapped = await pageLoaded.evaluate(() => {
             const filename = (path) => {
                 path = path.substring(path.lastIndexOf("/") + 1);
