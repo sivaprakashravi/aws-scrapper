@@ -17,6 +17,7 @@ const { asyncDownload } = require('./images-handler');
 global.document = document;
 const $ = jQuery = require('jquery')(window);
 const ip = require("ip");
+const fs = require("fs");
 const address = ip.address();
 const processProd = (asin, html, category, subCategory, subCategory1, subCategory2, subCategory3) => {
     $('body').html(html);
@@ -52,7 +53,7 @@ const processProd = (asin, html, category, subCategory, subCategory1, subCategor
         if (!salePrice) {
             salePrice = $('#price_inside_buybox').text().substr(1);
         }
-        if(!salePrice) {
+        if (!salePrice) {
             salePrice = $('#twister-plus-price-data-price').val();
         }
         let shipping = $('#exports_desktop_qualifiedBuybox_tlc_feature_div span.a-size-base.a-color-secondary').text();
@@ -168,12 +169,25 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
 }
 
 const browserInstance = async (product, onlyPrice) => {
+    if (!fs.existsSync("screenshots")) {
+        fs.mkdirSync("screenshots");
+      }
     if (product && product.listing_url && product.asin) {
         const url = `${host}${product.listing_url}`;
         const pageLoaded = await page(url);
-        await pageLoaded.waitForSelector('#detailBullets_feature_div');
-        await pageLoaded.waitForSelector('#price');
-        await pageLoaded.waitForTimeout(500);
+        await pageLoaded.waitForSelector('#detailBullets_feature_div', {timeout : 10000}).catch(async (e) => {
+            // console.log(`failed to wait for Primary Details Selector #detailBullets_feature_div on ASIN - ${product.asin}`);
+            // console.log(`Trying to Wait for alternate selector #productDetails_feature_div`);
+            await pageLoaded.waitForSelector('#productDetails_feature_div', {timeout : 10000}).catch((e) => {
+                // console.log(`failed to wait for Secondary Details Selector #productDetails_feature_div on ASIN - ${product.asin}`);
+                console.log(`WARNING - Corrupted Product Details! ${product.asin}`);
+            });
+        });
+        await pageLoaded.waitForSelector('#price', {timeout : 10000}).catch((e) => {
+            // console.log(`failed to wait for the #price on ASIN - ${product.asin}`);
+            console.log(`WARNING - Corrupted Price Details! ${product.asin}`);
+        });
+        await pageLoaded.screenshot({path: `screenshots/${product.asin}.png`, fullpage: true});
         const pageScrapped = await pageLoaded.evaluate(() => {
             const filename = (path) => {
                 path = path.substring(path.lastIndexOf("/") + 1);
@@ -214,7 +228,7 @@ const browserInstance = async (product, onlyPrice) => {
             if (!salePrice) {
                 salePrice = $('#price_inside_buybox').text().substr(1);
             }
-            if(!salePrice) {
+            if (!salePrice) {
                 salePrice = $('#twister-plus-price-data-price').val();
             }
             if (!shipping) {
@@ -224,15 +238,15 @@ const browserInstance = async (product, onlyPrice) => {
             const shippingValues = shipping ? shipping.match(/\d+/g).map(Number) : 0;
             psProduct.shippingPrice = shippingValues.toString().replace(',', '.');
             // psProduct.table = jSpot(productDetails.find("table"), 'Item Weight');
-            let ounces = jSpot($('#prodDetails'),'ounces').html();
-            ounces = ounces ? ounces : jSpot($('#prodDetails'),'Ounces').html();
-            let pounds = jSpot($('#prodDetails'),'pounds').html();
-            pounds = pounds ? pounds : jSpot($('#prodDetails'),'Pounds').html();
-            if(!ounces) {
-                ounces = jSpot($('#detailBulletsWrapper_feature_div'),'Ounces').html();
+            let ounces = jSpot($('#prodDetails'), 'ounces').html();
+            ounces = ounces ? ounces : jSpot($('#prodDetails'), 'Ounces').html();
+            let pounds = jSpot($('#prodDetails'), 'pounds').html();
+            pounds = pounds ? pounds : jSpot($('#prodDetails'), 'Pounds').html();
+            if (!ounces) {
+                ounces = jSpot($('#detailBulletsWrapper_feature_div'), 'Ounces').html();
             }
-            if(!pounds) {
-                pounds = jSpot($('#detailBulletsWrapper_feature_div'),'Pounds').html();
+            if (!pounds) {
+                pounds = jSpot($('#detailBulletsWrapper_feature_div'), 'Pounds').html();
             }
             if (ounces) {
                 const split = ounces.split(';');
@@ -289,12 +303,12 @@ const extractProdInformation = async (products, job) => {
                 job.status = 'Running';
                 const percentage = noOfProducts ? ((index + 1) / noOfProducts) * 100 : 0;
                 const statusUpdated = await jobStatusUpadate(job, percentage);
-                if (statusUpdated) {  
-                    prod.warning = {};                  
-                    if(!prod.item_dimensions_weight) {
+                if (statusUpdated) {
+                    prod.warning = {};
+                    if (!prod.item_dimensions_weight) {
                         prod.warning.weight = 'Product weight is not available.\nPrice calculation maybe Affected.';
                     }
-                    if(prod.label.length > 70) {
+                    if (prod.label.length > 70) {
                         prod.warning.label = 'Product label is morethan 70 characters.';
                     }
                     await pushtoDB(prod, job);

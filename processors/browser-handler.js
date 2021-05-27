@@ -6,6 +6,7 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin());
 const { jQ } = require('./../constants/defaults');
 const os = require('check-os');
+const userAgent = require('user-agents');
 const args = [
     "--disable-gpu",
     "--disable-dev-shm-usage",
@@ -17,8 +18,8 @@ const args = [
 ];
 let executablePath = "./node_modules/puppeteer/.local-chromium/win64-848005/chrome-win/chrome.exe";
 if (os.isLinux) {
-    // executablePath = "./node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux/chrome";
-    executablePath = "/usr/bin/chromium-browser";
+    executablePath = "./node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux/chrome";
+    // executablePath = "/usr/bin/chromium-browser";
 }
 const headless = true;
 let browserInstance;
@@ -39,15 +40,16 @@ const browser = async () => {
 const page = async (url) => {
     const b = await browser();
     // console.log(`Browser Page Opened!`);
-    let pages = await b.pages();
-    await pages.forEach(async p => {
-        p.close();
-    });
+    // let pages = await b.pages();
+    // await pages.forEach(async p => {
+    //     p.close();
+    // });
     const newPage = await b.newPage();
-    await newPage.setViewport({ width: 1920, height: 1080 });
+    await newPage.setUserAgent(userAgent.toString());
+    await newPage.setViewport({ width: 1280, height: 2850 });
     await newPage.setRequestInterception(true);
     newPage.on('request', (req) => {
-        if (req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image') {
+        if (/*req.resourceType() == 'stylesheet' ||  */req.resourceType() == 'font' ||req.resourceType() == 'image') {
             req.abort();
         }
         else {
