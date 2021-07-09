@@ -19,6 +19,7 @@ const $ = jQuery = require('jquery')(window);
 const ip = require("ip");
 const fs = require("fs");
 const address = ip.address();
+const isScEnabled = false;
 const processProd = (asin, html, category, subCategory, subCategory1, subCategory2, subCategory3) => {
     $('body').html(html);
     let product = null;
@@ -169,25 +170,27 @@ const amazonScrapper = async function (url, category, subCategory, subCategory1,
 }
 
 const browserInstance = async (product, onlyPrice) => {
-    if (!fs.existsSync("screenshots")) {
+    if (isScEnabled && !fs.existsSync("screenshots")) {
         fs.mkdirSync("screenshots");
-      }
+    }
     if (product && product.listing_url && product.asin) {
         const url = `${host}${product.listing_url}`;
         const pageLoaded = await page(url);
-        await pageLoaded.waitForSelector('#detailBullets_feature_div', {timeout : 10000}).catch(async (e) => {
+        await pageLoaded.waitForSelector('#detailBullets_feature_div', { timeout: 10000 }).catch(async (e) => {
             // console.log(`failed to wait for Primary Details Selector #detailBullets_feature_div on ASIN - ${product.asin}`);
             // console.log(`Trying to Wait for alternate selector #productDetails_feature_div`);
-            await pageLoaded.waitForSelector('#productDetails_feature_div', {timeout : 10000}).catch((e) => {
+            await pageLoaded.waitForSelector('#productDetails_feature_div', { timeout: 10000 }).catch((e) => {
                 // console.log(`failed to wait for Secondary Details Selector #productDetails_feature_div on ASIN - ${product.asin}`);
                 console.log(`WARNING - Corrupted Product Details! ${product.asin}`);
             });
         });
-        await pageLoaded.waitForSelector('#price', {timeout : 10000}).catch((e) => {
+        await pageLoaded.waitForSelector('#price', { timeout: 10000 }).catch((e) => {
             // console.log(`failed to wait for the #price on ASIN - ${product.asin}`);
             console.log(`WARNING - Corrupted Price Details! ${product.asin}`);
         });
-        await pageLoaded.screenshot({path: `screenshots/${product.asin}.png`, fullpage: true});
+        if(isScEnabled) {
+            await pageLoaded.screenshot({ path: `screenshots/${product.asin}.png`, fullpage: true });
+        }
         const pageScrapped = await pageLoaded.evaluate(() => {
             const filename = (path) => {
                 path = path.substring(path.lastIndexOf("/") + 1);
