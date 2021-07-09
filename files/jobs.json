@@ -1,0 +1,2922 @@
+[{
+  "_id": {
+    "$oid": "60b4496a84ec4b4280885826"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Vitamins",
+    "id": 1,
+    "nId": "6936790011"
+  },
+  "subCategory2": {
+    "name": "Multivitamins",
+    "id": 3,
+    "nId": "3774861"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1800",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622173710870,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-05-28T03:48:30+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b4bae7c7c36e516529b802"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Vitamins",
+    "id": 1,
+    "nId": "6936790011"
+  },
+  "subCategory2": {
+    "name": "Vitamin B",
+    "id": 6,
+    "nId": "3774671"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "2000",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622457063070,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-05-31T10:31:03+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b4c415c7c36e516529b94b"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Vitamins",
+    "id": 1,
+    "nId": "6936790011"
+  },
+  "subCategory2": {
+    "name": "Vitamin B",
+    "id": 6,
+    "nId": "3774671"
+  },
+  "subCategory3": {
+    "name": "B-Complex",
+    "id": 1,
+    "nId": "3774761"
+  },
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "300",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622459413647,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-05-31T11:10:13+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b5d693c7c36e516529ce4c"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Vitamins",
+    "id": 1,
+    "nId": "6936790011"
+  },
+  "subCategory2": {
+    "name": "Vitamin C",
+    "id": 7,
+    "nId": "3774771"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622529682942,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-01T06:41:22+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b5d6bac7c36e516529ce4d"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Vitamins",
+    "id": 1,
+    "nId": "6936790011"
+  },
+  "subCategory2": {
+    "name": "Vitamin D",
+    "id": 8,
+    "nId": "3774781"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1000",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622529722608,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-01T06:42:02+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b5d6eec7c36e516529ce4e"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Herbal Supplements",
+    "id": 5,
+    "nId": "3764461"
+  },
+  "subCategory2": {
+    "name": "Mushrooms",
+    "id": 33,
+    "nId": "3766351"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "720",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622529774908,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-01T06:42:54+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b703b2c7c36e516529d721"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Herbal Supplements",
+    "id": 5,
+    "nId": "3764461"
+  },
+  "subCategory2": {
+    "name": "Turmeric",
+    "id": 46,
+    "nId": "3767191"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "800",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622606769991,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-02T04:06:09+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b70cfcc7c36e516529d7ca"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Supplements",
+    "id": 4,
+    "nId": "6939426011"
+  },
+  "subCategory2": {
+    "name": "Amino Acids",
+    "id": 2,
+    "nId": "10781161"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "700",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622609148426,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-02T04:45:48+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b70fedc7c36e516529d800"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Supplements",
+    "id": 4,
+    "nId": "6939426011"
+  },
+  "subCategory2": {
+    "name": "Essential Fatty Acids",
+    "id": 9,
+    "nId": "6943343011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "3000",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622609901843,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-02T04:58:21+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b75a7fe88166c0b420a213"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Supplements",
+    "id": 4,
+    "nId": "6939426011"
+  },
+  "subCategory2": {
+    "name": "Essential Fatty Acids",
+    "id": 9,
+    "nId": "6943343011"
+  },
+  "subCategory3": {
+    "name": "Omega Oils",
+    "id": 9,
+    "nId": "6943348011"
+  },
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "980",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622628991554,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-02T10:16:31+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b845c4e88166c0b420b4fe"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Supplements",
+    "id": 4,
+    "nId": "6939426011"
+  },
+  "subCategory2": {
+    "name": "Amino Acids",
+    "id": 2,
+    "nId": "10781161"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1400",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622689220478,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T03:00:20+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b845fee88166c0b420b4ff"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Supplements",
+    "id": 4,
+    "nId": "6939426011"
+  },
+  "subCategory2": {
+    "name": "Digestive Supplements",
+    "id": 7,
+    "nId": "6942464011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "2800",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622689278307,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T03:01:18+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b84625e88166c0b420b500"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Herbal Supplements",
+    "id": 5,
+    "nId": "3764461"
+  },
+  "subCategory2": {
+    "name": "Aloe Vera",
+    "id": 2,
+    "nId": "3764491"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "140",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622689317238,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T03:01:57+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b847a2e88166c0b420b52b"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Blended Vitamin & Mineral Supplements",
+    "id": 3,
+    "nId": "3773931"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "260",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622689698280,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T03:08:18+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b849d7e88166c0b420b5de"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sports Nutrition",
+    "id": 7,
+    "nId": "6973663011"
+  },
+  "subCategory1": {
+    "name": "Protein",
+    "id": 9,
+    "nId": "6973704011"
+  },
+  "subCategory2": {
+    "name": "Ready to Drink",
+    "id": 2,
+    "nId": "6973719011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "150",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622690263669,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T03:17:43+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b84ddae88166c0b420b737"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sports Nutrition",
+    "id": 7,
+    "nId": "6973663011"
+  },
+  "subCategory1": {
+    "name": "Endurance & Energy",
+    "id": 2,
+    "nId": "6973669011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1200",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622691290585,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T03:34:50+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b85622e88166c0b420b9ea"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sports Nutrition",
+    "id": 7,
+    "nId": "6973663011"
+  },
+  "subCategory1": {
+    "name": "Protein",
+    "id": 9,
+    "nId": "6973704011"
+  },
+  "subCategory2": {
+    "name": "Powders",
+    "id": 1,
+    "nId": "6973706011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1600",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622693410664,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T04:10:10+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b88f1de88166c0b420ca12"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sports Nutrition",
+    "id": 7,
+    "nId": "6973663011"
+  },
+  "subCategory1": {
+    "name": "Pre-Workout",
+    "id": 7,
+    "nId": "6973697011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1000",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622707997158,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T08:13:17+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b88f93e88166c0b420ca2c"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sports Nutrition",
+    "id": 7,
+    "nId": "6973663011"
+  },
+  "subCategory1": {
+    "name": "Hydration",
+    "id": 5,
+    "nId": "6973693011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "200",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622708115012,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T08:15:15+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b8a47ee88166c0b420cd19"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sports Nutrition",
+    "id": 7,
+    "nId": "6973663011"
+  },
+  "subCategory1": {
+    "name": "Post-Workout & Recovery",
+    "id": 8,
+    "nId": "6973701011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622713470444,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-03T09:44:30+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c614e88166c0b420dd16"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Alternative Medicine",
+    "id": 1,
+    "nId": "13052911"
+  },
+  "subCategory2": {
+    "name": "Aromatherapy",
+    "id": 2,
+    "nId": "3767491"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622787604668,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:20:04+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c668e88166c0b420dd17"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Alternative Medicine",
+    "id": 1,
+    "nId": "13052911"
+  },
+  "subCategory2": {
+    "name": "Acupuncture",
+    "id": 1,
+    "nId": "13052921"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622787688360,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:21:28+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c691e88166c0b420dd18"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Alternative Medicine",
+    "id": 1,
+    "nId": "13052911"
+  },
+  "subCategory2": {
+    "name": "Manipulation Therapies",
+    "id": 8,
+    "nId": "13053161"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622787729278,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:22:09+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c6ade88166c0b420dd19"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Alternative Medicine",
+    "id": 1,
+    "nId": "13052911"
+  },
+  "subCategory2": {
+    "name": "Oxygen Therapy",
+    "id": 9,
+    "nId": "13052971"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622787757241,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:22:37+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c6c5e88166c0b420dd1a"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Alternative Medicine",
+    "id": 1,
+    "nId": "13052911"
+  },
+  "subCategory2": {
+    "name": "Single Homeopathic Remedies",
+    "id": 10,
+    "nId": "3767781"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622787781193,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:23:01+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c6d7e88166c0b420dd1c"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Alternative Medicine",
+    "id": 1,
+    "nId": "13052911"
+  },
+  "subCategory2": {
+    "name": "Sound Therapy",
+    "id": 11,
+    "nId": "13052981"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622787798899,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:23:18+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c8e3e88166c0b420dd74"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Diabetes Care",
+    "id": 2,
+    "nId": "3761401"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "700",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788323585,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:32:03+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c8f9e88166c0b420dd78"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Ear Care",
+    "id": 3,
+    "nId": "3779681"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "500",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788345144,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:32:25+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c93ae88166c0b420dd87"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Feminine Care",
+    "id": 5,
+    "nId": "3779501"
+  },
+  "subCategory2": {
+    "name": "Douches & Enemas",
+    "id": 2,
+    "nId": "13226756011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788410813,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:33:30+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c96ce88166c0b420dd95"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Feminine Care",
+    "id": 5,
+    "nId": "3779501"
+  },
+  "subCategory2": {
+    "name": "Feminine Washes",
+    "id": 4,
+    "nId": "13226755011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788460865,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:34:20+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c996e88166c0b420dd98"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Feminine Care",
+    "id": 5,
+    "nId": "3779501"
+  },
+  "subCategory2": {
+    "name": "Feminine Wipes",
+    "id": 5,
+    "nId": "13226753011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788502254,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:35:02+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c9aee88166c0b420dd9c"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Feminine Care",
+    "id": 5,
+    "nId": "3779501"
+  },
+  "subCategory2": {
+    "name": "Menopause Products",
+    "id": 6,
+    "nId": "13106291"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "150",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788526755,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:35:26+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9c9eae88166c0b420dda6"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Feminine Care",
+    "id": 5,
+    "nId": "3779501"
+  },
+  "subCategory2": {
+    "name": "Menstrual Cups",
+    "id": 7,
+    "nId": "3779511"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788586375,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:36:26+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9ca02e88166c0b420ddab"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Feminine Care",
+    "id": 5,
+    "nId": "3779501"
+  },
+  "subCategory2": {
+    "name": "Tampons",
+    "id": 10,
+    "nId": "3779601"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622788610204,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T06:36:50+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9f28ee88166c0b420e1a8"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Feminine Care",
+    "id": 5,
+    "nId": "3779501"
+  },
+  "subCategory2": {
+    "name": "Deodorant Sprays",
+    "id": 1,
+    "nId": "3779521"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "40",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622798990571,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T09:29:50+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60b9f2a8e88166c0b420e1aa"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Eye Health",
+    "id": 4,
+    "nId": "3779691"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "399",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622799016523,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-04T09:30:16+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1a54e88166c0b420e8d6"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Antibiotics & Antiseptics",
+    "id": 1,
+    "nId": "3762601"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "145",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874708705,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:31:48+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1a72e88166c0b420e8d7"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Antibiotics & Antiseptics",
+    "id": 1,
+    "nId": "3762601"
+  },
+  "subCategory3": {
+    "name": "Hand Sanitizers",
+    "id": 2,
+    "nId": "2265897011"
+  },
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "150",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874738956,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:32:18+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1a8ae88166c0b420e8d8"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Burn Care",
+    "id": 4,
+    "nId": "3762791"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874762839,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:32:42+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1abae88166c0b420e8da"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "First Aid Kits",
+    "id": 6,
+    "nId": "3762881"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874810082,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:33:30+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1acee88166c0b420e8db"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Gloves",
+    "id": 7,
+    "nId": "6125376011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874830243,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:33:50+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1b04e88166c0b420e8dc"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Hot & Cold Therapies",
+    "id": 8,
+    "nId": "3763831"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "300",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874884660,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:34:44+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1b25e88166c0b420e8de"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Itching & Rash Treatments",
+    "id": 9,
+    "nId": "3762911"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "250",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874917249,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:35:17+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1b46e88166c0b420e8e0"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Scars & Wounds",
+    "id": 11,
+    "nId": "3763121"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622874950620,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:35:50+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1bbee88166c0b420e8e9"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Foot Health",
+    "id": 7,
+    "nId": "3779911"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "900",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622875070024,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:37:50+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bb1bede88166c0b420e8ee"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Incontinence & Ostomy",
+    "id": 8,
+    "nId": "3763261"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1200",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1622875117405,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-05T06:38:37+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bd99dce88166c0b420f67f"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "First Aid",
+    "id": 6,
+    "nId": "3762591"
+  },
+  "subCategory2": {
+    "name": "Defibrillators",
+    "id": 5,
+    "nId": "3762871"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "60",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623038428308,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T04:00:28+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bde9a3e88166c0b420f6bc"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "OTC Medications & Treatments",
+    "id": 9,
+    "nId": "10079990011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "600",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623058851404,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T09:40:51+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bde9dde88166c0b420f6bd"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Respiratory Aids & Accessories",
+    "id": 10,
+    "nId": "8627102011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "300",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623058909186,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T09:41:49+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdeaf6e88166c0b420f6be"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Sleep & Snoring",
+    "id": 11,
+    "nId": "3764271"
+  },
+  "subCategory2": {
+    "name": "Medicinal Sleep Aids",
+    "id": 1,
+    "nId": "3764301"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "150",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623059190880,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T09:46:30+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdeb31e88166c0b420f6c0"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Sleep & Snoring",
+    "id": 11,
+    "nId": "3764271"
+  },
+  "subCategory2": {
+    "name": "Sleeping Masks",
+    "id": 3,
+    "nId": "3764231"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "150",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623059249893,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T09:47:29+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdeb49e88166c0b420f6c1"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Sleep & Snoring",
+    "id": 11,
+    "nId": "3764271"
+  },
+  "subCategory2": {
+    "name": "Sleep Sound Machines",
+    "id": 4,
+    "nId": "18746767011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "60",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623059273315,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T09:47:53+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdeb5ee88166c0b420f6c2"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Sleep & Snoring",
+    "id": 11,
+    "nId": "3764271"
+  },
+  "subCategory2": {
+    "name": "Snore Reducing Aids",
+    "id": 5,
+    "nId": "702368011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623059294203,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T09:48:14+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdeba0e88166c0b420f6c4"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Smoking Cessation",
+    "id": 12,
+    "nId": "3764401"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "250",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623059360869,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T09:49:20+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdef06e88166c0b420f6d0"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Baby & Child Care",
+    "id": 1,
+    "nId": "10787321"
+  },
+  "subCategory1": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "16025501"
+  },
+  "subCategory2": {
+    "name": "Baby Thermometers",
+    "id": 2,
+    "nId": "166862011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "300",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623060230551,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T10:03:50+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdef36e88166c0b420f6d4"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Baby & Child Care",
+    "id": 1,
+    "nId": "10787321"
+  },
+  "subCategory1": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "16025501"
+  },
+  "subCategory2": {
+    "name": "Children's Vitamins",
+    "id": 4,
+    "nId": "16225031"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623060278926,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T10:04:38+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60bdef51e88166c0b420f6d6"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sexual Wellness",
+    "id": 6,
+    "nId": "3777371"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "10",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623060305037,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T10:05:05+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60be1727e88166c0b420f99a"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Mobility & Daily Living Aids",
+    "id": 7,
+    "nId": "8624314011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "650",
+  "active": false,
+  "status": "New",
+  "scheduleId": 1623070503637,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T12:55:03+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "0.00"
+},{
+  "_id": {
+    "$oid": "60be198ce88166c0b420f9be"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Mobility & Daily Living Aids",
+    "id": 7,
+    "nId": "8624314011"
+  },
+  "subCategory2": {
+    "name": "Visual Impairment Aids",
+    "id": 11,
+    "nId": "3776241"
+  },
+  "subCategory3": {
+    "name": "Magnifiers",
+    "id": 4,
+    "nId": "3776271"
+  },
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "750",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623071116103,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T13:05:16+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60be1d6ee88166c0b420f9f2"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Health Monitors",
+    "id": 5,
+    "nId": "3777131"
+  },
+  "subCategory2": {
+    "name": "Body Weight Scales",
+    "id": 5,
+    "nId": "85968011"
+  },
+  "subCategory3": {
+    "name": "Digital",
+    "id": 1,
+    "nId": "344746011"
+  },
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "450",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623072110804,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T13:21:50+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60be1e1de88166c0b420f9fd"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Sexual Wellness",
+    "id": 6,
+    "nId": "3777371"
+  },
+  "subCategory1": {
+    "name": "Safer Sex",
+    "id": 1,
+    "nId": "3777411"
+  },
+  "subCategory2": {
+    "name": "Lubricants",
+    "id": 3,
+    "nId": "10786421"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "800",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623072285091,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T13:24:45+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60be1edbe88166c0b420fa09"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Health Monitors",
+    "id": 5,
+    "nId": "3777131"
+  },
+  "subCategory2": {
+    "name": "Pedometers",
+    "id": 9,
+    "nId": "219599011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "100",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623072475440,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T13:27:55+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60be1efde88166c0b420fa0c"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Occupational & Physical Therapy Aids",
+    "id": 8,
+    "nId": "3776531"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "150",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623072509755,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-07T13:28:29+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c02dcad71564d090c18a27"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Health Monitors",
+    "id": 5,
+    "nId": "3777131"
+  },
+  "subCategory2": {
+    "name": "Blood Pressure Monitors",
+    "id": 2,
+    "nId": "3777151"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "80",
+  "active": false,
+  "status": "New",
+  "scheduleId": 1623207370020,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T02:56:10+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "0.00"
+},{
+  "_id": {
+    "$oid": "60c02df3d71564d090c18a28"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Health Monitors",
+    "id": 5,
+    "nId": "3777131"
+  },
+  "subCategory2": {
+    "name": "Stethoscopes",
+    "id": 11,
+    "nId": "3777201"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "140",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623207411567,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T02:56:51+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c02e2cd71564d090c18a29"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Health Monitors",
+    "id": 5,
+    "nId": "3777131"
+  },
+  "subCategory2": {
+    "name": "Body Weight Scales",
+    "id": 5,
+    "nId": "85968011"
+  },
+  "subCategory3": {
+    "name": "Mechanical",
+    "id": 2,
+    "nId": "344747011"
+  },
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "50",
+  "active": false,
+  "status": "New",
+  "scheduleId": 1623207468554,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T02:57:48+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "0.00"
+},{
+  "_id": {
+    "$oid": "60c02eb2d71564d090c18a37"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Mobility & Daily Living Aids",
+    "id": 7,
+    "nId": "8624314011"
+  },
+  "subCategory2": {
+    "name": "Visual Impairment Aids",
+    "id": 11,
+    "nId": "3776241"
+  },
+  "subCategory3": {
+    "name": "Reading Glasses",
+    "id": 5,
+    "nId": "3779821"
+  },
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "4600",
+  "active": false,
+  "status": "New",
+  "scheduleId": 1623207602371,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:00:02+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "0.00"
+},{
+  "_id": {
+    "$oid": "60c02ef5d71564d090c18a40"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Cloth Face Masks & Accessories",
+    "id": 2,
+    "nId": "21233677011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "4500",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623207669492,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:01:09+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c02f24d71564d090c18a45"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Medical Supplies & Equipment",
+    "id": 4,
+    "nId": "3775161"
+  },
+  "subCategory1": {
+    "name": "Braces, Splints & Supports",
+    "id": 1,
+    "nId": "3775541"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "4700",
+  "active": true,
+  "status": "New",
+  "scheduleId": 1623207716394,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:01:56+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "34.32"
+},{
+  "_id": {
+    "$oid": "60c02f59d71564d090c18a4d"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Baby & Child Care",
+    "id": 1,
+    "nId": "10787321"
+  },
+  "subCategory1": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "16025501"
+  },
+  "subCategory2": {
+    "name": "Colic & Gas Relief",
+    "id": 6,
+    "nId": "10398750011"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "50",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623207769866,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:02:49+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c03007d71564d090c18a5e"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Vitamins & Dietary Supplements",
+    "id": 10,
+    "nId": "3764441"
+  },
+  "subCategory1": {
+    "name": "Weight Loss",
+    "id": 6,
+    "nId": "3774931"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "2900",
+  "active": true,
+  "status": "New",
+  "scheduleId": 1623207943414,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:05:43+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "19.14"
+},{
+  "_id": {
+    "$oid": "60c0307ed71564d090c18a69"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Sleep & Snoring",
+    "id": 11,
+    "nId": "3764271"
+  },
+  "subCategory2": {
+    "name": "Chin Straps",
+    "id": 6,
+    "nId": "3764321"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "40",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623208062779,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:07:42+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c03100d71564d090c18a76"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Sleep & Snoring",
+    "id": 11,
+    "nId": "3764271"
+  },
+  "subCategory2": {
+    "name": "Nasal Strips",
+    "id": 2,
+    "nId": "3764371"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "20",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623208192681,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:09:52+00:00",
+  "address": "172.26.0.214",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c032f5d71564d090c18aa2"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Ear Care",
+    "id": 3,
+    "nId": "3779681"
+  },
+  "subCategory2": {
+    "name": "Earwax Removal",
+    "id": 4,
+    "nId": "3779891"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1000",
+  "active": true,
+  "status": "Error",
+  "scheduleId": 1623208693827,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:18:13+00:00",
+  "address": "undefined",
+  "message": "Scrap range[1000] is Higher than available products 252.\nJob Stopped",
+  "percentage": "0.00"
+},{
+  "_id": {
+    "$oid": "60c03505d71564d090c18ac2"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Eye Health",
+    "id": 4,
+    "nId": "3779691"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "200",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623209221030,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:27:01+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c03547d71564d090c18ac3"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "3760941"
+  },
+  "subCategory1": {
+    "name": "Diabetes Care",
+    "id": 2,
+    "nId": "3761401"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "1450",
+  "active": false,
+  "status": "Completed",
+  "scheduleId": 1623209287235,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:28:07+00:00",
+  "address": "172.26.2.171",
+  "message": "undefined",
+  "percentage": "100.00"
+},{
+  "_id": {
+    "$oid": "60c0360dd71564d090c18ad5"
+  },
+  "category": {
+    "name": "Health & Household",
+    "id": 17,
+    "nId": "16225010011"
+  },
+  "subCategory": {
+    "name": "Baby & Child Care",
+    "id": 1,
+    "nId": "10787321"
+  },
+  "subCategory1": {
+    "name": "Health Care",
+    "id": 2,
+    "nId": "16025501"
+  },
+  "subCategory2": {
+    "name": "Children's Vitamins",
+    "id": 4,
+    "nId": "16225031"
+  },
+  "subCategory3": "",
+  "recursive": false,
+  "prime": true,
+  "paused": false,
+  "interval": "Now",
+  "from": "0",
+  "to": "800",
+  "active": true,
+  "status": "Error",
+  "scheduleId": 1623209485290,
+  "scheduledBy": "DEVELOPER",
+  "createdOn": "2021-06-09T03:31:25+00:00",
+  "address": "undefined",
+  "message": "Scrap range[800] is Higher than available products 168.\nJob Stopped",
+  "percentage": "0.00"
+}]
