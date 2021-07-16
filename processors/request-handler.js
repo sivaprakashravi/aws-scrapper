@@ -188,6 +188,7 @@ const browserInstance = async (product, onlyPrice) => {
             // console.log(`failed to wait for the #price on ASIN - ${product.asin}`);
             console.log(`WARNING - Corrupted Price Details! ${product.asin}`);
         });
+        await pageLoaded.waitForSelector('#altImages', { timeout: 10000 });
         if(isScEnabled) {
             await pageLoaded.screenshot({ path: `screenshots/${product.asin}.png`, fullpage: true });
         }
@@ -205,7 +206,7 @@ const browserInstance = async (product, onlyPrice) => {
             $('body').html($('body').html().replace(/(\r\n|\n|\r)/gm, ''));
             const psProduct = {};
             const productDetails = $('#prodDetails');
-            const altImages = $('#altImages li.imageThumbnail img');
+            const altImages = $('#altImages li.item img');
             const imageList = [];
             if (altImages && altImages.length) {
                 altImages.each((i, alt) => {
